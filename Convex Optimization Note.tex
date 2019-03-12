@@ -41,9 +41,44 @@ Since $\mathcal{A}$ is affine and $\mathbf{v}, \mathbf{0} \in \mathcal{A}$, $\th
 $\frac{1}{2} \mathbf{v_{1}} + \frac{1}{2} \mathbf{v_{2}}$ is in $\mathcal{A}$ as $\mathcal{A}$ is affine and $\frac{1}{2} \mathbf{v_{1}}, \frac{1}{2} \mathbf{v_{2}} \in \mathcal{A}$(According to the second rule, $\mathbf{v_{1}}, \mathbf{v_{2}} \in \mathcal{A}$, then, $\frac{1}{2} \mathbf{v_{1}}, \frac{1}{2} \mathbf{v_{2}} \in \mathcal{A}$). According  to the second rule, $2(\frac{1}{2} \mathbf{v_{1}} + \frac{1}{2} \mathbf{v_{2}}) \in \mathcal{A}$
 
 Therefore, any affine set $\mathcal{A}'$ can be thought as a subspace $\mathcal{V}$ with a transportation $\mathbf{v}$, which means, $\mathcal{A}' = \mathcal{V} + \mathbf{v}$. On the other hand, an affine set subtract some constant vector ($\mathcal{A}' - \mathbf{v}$), which make the new set contain original point, can form a subspace. Formally, for a affine set $\mathcal{A} = \{ \mathbf{a_{1}}, \mathbf{a_{2}}, \cdots, \mathbf{a_{n}} \}$ and  $\mathbf{a_{i}} \in \mathcal{A}$, the set:
-\begin{equation*}
+\begin{equation}
 	\mathcal{A} - \mathbf{a_{i}} = \{ \mathbf{a_{1}} - \mathbf{a_{i}}, \mathbf{a_{2}} - \mathbf{a_{i}}, \cdots,  \mathbf{a_{i - 1}}, \mathbf{0}, \mathbf{a_{i + 1}}, \cdots, \mathbf{a_{n}} - \mathbf{a_{i}} \}
+	\label{affine_subspace}
+\end{equation}
+form a subspace. Furthermore, any affine set $\mathcal{A}$ has the form:
+\begin{equation}
+	\mathcal{A} = \{ \mathbf{x} |\, \mathcal{B} \mathbf{x} = \mathbf{c} \}
+	\label{affine_matrix}
+\end{equation}
+\textbf{Proof}: According to equation \ref{affine_subspace}, $\mathcal{A} - \mathbf{a_{i}}$ is a subspace. Denote this subspace as $\mathcal{L} = \mathcal{A} - \mathbf{a_{i}}$. Assume the space that perpendicular to $\mathcal{L}$, denote as $\mathcal{L}^{\perp}$, has basis $\{ \mathbf{b_{1}}, \mathbf{b_{2}}, \cdots, \mathbf{b_{n}} \}$. Then, $\mathcal{L}$ is the set of vectors that perpendicular to the basis of $\mathcal{L}^{\perp}$. As a result, if we write the basis of $\mathcal{L}^{\perp}$ in matrix form, which is:
+\begin{equation*}
+	\mathcal{B} = 
+	\begin{bmatrix}
+		\mathbf{b_{1}}^{T} \\
+		\mathbf{b_{2}}^{T} \\
+		\vdots \\
+		\mathbf{b_{n}}^{T}
+	\end{bmatrix}
 \end{equation*}
-form a subspace.
+We have:
+\begin{equation}
+	\mathcal{L} = \{ \mathbf{y} |\, \mathcal{B} \mathbf{y} = 0 \}
+	\label{affine_original_subspace}
+\end{equation} 
+Equation \ref{affine_original_subspace} always hold as all vector in $\mathcal{L}^{\perp}$ is the linear combination of the basis, hence, if a vector $\mathbf{v}$ satisfied $\mathbf{b_{1}}^{T} \mathbf{v} = 0, \mathbf{b_{2}}^{T} \mathbf{v} = 0, \cdots, \mathbf{b_{n}}^{T} \mathbf{v} = 0$, then, $(\theta_{1} \mathbf{b_{1}} + \theta_{2} \mathbf{b_{2}} + \cdots \theta_{n} \mathbf{b_{n}})^{T} \mathbf{v} = 0$, which means,$\mathbf{v}$ is perpendicular to any vector in $\mathcal{L}^{\perp}$ if $\mathbf{v}$ is perpendicular to the basis of $\mathcal{L}^{\perp}$.
 
+Since the vector in $\mathcal{L}$ come from $\mathcal{A}$ subtract $\mathbf{a_{i}}$, for all $\mathbf{y} \in \mathcal{L}$, there must exists $\mathbf{x} \in \mathcal{A}$ such that: 
+\begin{equation}
+	\mathbf{y} = \mathbf{x} - \mathbf{a_{i}}
+	\label{affine_subtract}
+\end{equation}
+By combining equation \ref{affine_subtract} and equation \ref{affine_original_subspace}, we have:
+\begin{equation*}
+	\mathcal{A} = \{ \mathbf{x} |\, \mathcal{B} (\mathbf{x} - \mathbf{a_{i}}) = 0 \}
+\end{equation*}
+Which is equivalent to :
+\begin{equation*}
+	\mathcal{A} = \{ \mathbf{x} |\, \mathcal{B} \mathbf{x} = \mathcal{B} \mathbf{a_{i}} \}
+\end{equation*}
+and has the same form as equation \ref{affine_matrix}, where $\mathbf{c} = \mathcal{B} \mathbf{a_{i}}$.
 \end{document}
