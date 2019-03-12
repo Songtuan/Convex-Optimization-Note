@@ -7,6 +7,7 @@
 \author{Garrick Lin}
 \title{Convex Optimization Note}
 \setlength{\parindent}{0cm}
+\setlength{\parskip}{15pt}
 \begin{document}
 \maketitle
 
@@ -15,14 +16,34 @@
 \subsection{Definition}
 A set $\mathcal{A}$ is called affine set when it satisfied:
 \begin{quotation}
-	If $x_{1} \in \mathcal{A}$ and $x_{2} \in \mathcal{A}$, then, $\forall \theta \in \mathcal{R}$, $x = \theta x_{1} + (1 - \theta)x_{2}$ also belong to $\mathcal{A}$. 
+	If $\mathbf{x_{1}} \in \mathcal{A}$ and $\mathbf{x_{2}} \in \mathcal{A}$, then, $\forall \theta \in \mathcal{R}$, $x = \theta \mathbf{x_{1}} + (1 - \theta) \mathbf{x_{2}}$ also belong to $\mathcal{A}$. 
 \end{quotation}
-The expression $\theta x_{1} + (1 - \theta) x_{2}$ represent a line that cross through $x_{1}$ and $x_{2}$. Hence, affine set can be explained intuitively as:
+The expression $\theta \mathbf{x_{1}} + (1 - \theta) \mathbf{x_{2}}$ represent a line that cross through $\mathbf{x_{1}}$ and $\mathbf{x_{2}}$. Hence, affine set can be explained intuitively as:
 \begin{quote}
 	Affine set is a set that contain the line which cross through any two point within this set.
 \end{quote} 
 
 \subsection{Properties}
+Assume a affine set $\mathcal{A} \subseteq \mathcal{R}^{n}$. If $\mathcal{A}$ contain original point($\mathbf{0}$), then, $\mathcal{A}$ is a subspace. In order to prove this, $\mathcal{A}$ must satisfied following three rules:  
+\begin{enumerate}
+	\item $\mathcal{A}$ contain original point.
+	\item If $\mathbf{v} \in \mathcal{A}$, then, $\forall \theta \in \mathcal{R}$, $\theta \mathbf{v} \in \mathcal{A}$.
+	\item If $\mathbf{v_{1}}, \mathbf{v_{2}} \in \mathcal{A}$, then, $\mathbf{v_{1}} + \mathbf{v_{2}} \in \mathbf{A}$.
+\end{enumerate}
+The first rule is already satisfied. For the second rule, $\forall \theta \in \mathcal{R}$, $\theta \mathbf{v}$ satisfied:
+\begin{equation*}
+	\theta \mathbf{v} = \theta \mathbf{v} + (1 - \theta) \mathbf{0}
+\end{equation*}
+Since $\mathcal{A}$ is affine and $\mathbf{v}, \mathbf{0} \in \mathcal{A}$, $\theta \mathbf{v} \in \mathcal{A}$ always true. For the third rule, there is:
+\begin{equation*}
+	\mathbf{v_{1}} + \mathbf{v_{2}} = 2(\frac{1}{2} \mathbf{v_{1}} + \frac{1}{2} \mathbf{v_{2}})
+\end{equation*}
+$\frac{1}{2} \mathbf{v_{1}} + \frac{1}{2} \mathbf{v_{2}}$ is in $\mathcal{A}$ as $\mathcal{A}$ is affine and $\frac{1}{2} \mathbf{v_{1}}, \frac{1}{2} \mathbf{v_{2}} \in \mathcal{A}$(According to the second rule, $\mathbf{v_{1}}, \mathbf{v_{2}} \in \mathcal{A}$, then, $\frac{1}{2} \mathbf{v_{1}}, \frac{1}{2} \mathbf{v_{2}} \in \mathcal{A}$). According  to the second rule, $2(\frac{1}{2} \mathbf{v_{1}} + \frac{1}{2} \mathbf{v_{2}}) \in \mathcal{A}$
 
+Therefore, any affine set $\mathcal{A}'$ can be thought as a subspace $\mathcal{V}$ with a transportation $\mathbf{v}$, which means, $\mathcal{A}' = \mathcal{V} + \mathbf{v}$. On the other hand, an affine set subtract some constant vector ($\mathcal{A}' - \mathbf{v}$), which make the new set contain original point, can form a subspace. Formally, for a affine set $\mathcal{A} = \{ \mathbf{a_{1}}, \mathbf{a_{2}}, \cdots, \mathbf{a_{n}} \}$ and  $\mathbf{a_{i}} \in \mathcal{A}$, the set:
+\begin{equation*}
+	\mathcal{A} - \mathbf{a_{i}} = \{ \mathbf{a_{1}} - \mathbf{a_{i}}, \mathbf{a_{2}} - \mathbf{a_{i}}, \cdots,  \mathbf{a_{i - 1}}, \mathbf{0}, \mathbf{a_{i + 1}}, \cdots, \mathbf{a_{n}} - \mathbf{a_{i}} \}
+\end{equation*}
+form a subspace.
 
 \end{document}
