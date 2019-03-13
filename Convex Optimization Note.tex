@@ -82,9 +82,16 @@ Which is equivalent to :
 \end{equation*}
 and has the same form as equation \ref{affine_matrix}, where $\mathbf{c} = \mathcal{B} \mathbf{a_{i}}$.
 
-\section{Hyperplane}
-In a $\mathcal{R}^{n}$ space, the hyperplane is defined as a $n - 1$ dimension subspace plus a translate $\mathbf{x_{0}}$, which is perpendicular to a one dimension vector $\mathbf{w}$. The formal mathematical expression of hyperplane $\mathcal{H}$ is:
+\section{Hyper-plane}
+In a $\mathcal{R}^{n}$ space, the hyperplane is defined as a $n - 1$ dimension subspace plus a translate $\mathbf{x_{0}}$, which is perpendicular to a one dimension vector $\mathbf{w}$. The formal mathematical expression of hyper-plane $\mathcal{H}$ is:
 \begin{equation}
 	\mathcal{H} = \{ \mathbf{y} + \mathbf{x_{0}} |\, \mathbf{w}^{T}\mathbf{y} = 0  \}
+	\label{hyperplane_original}
 \end{equation}
+We can denote $\mathbf{x} = \mathbf{y} + \mathbf{x_{0}}$, hence, equation \ref{hyperplane_original} become:
+\begin{equation}
+	\mathcal{H} = \{ \mathbf{x} |\, \mathbf{w}^{T}(\mathbf{x} - \mathbf{x_{0}}) = 0 \}
+	\label{hyperplane}
+\end{equation}
+It is clearly that when $\mathbf{x} = \mathbf{x_{0}}$, $\mathbf{w}^{T} (\mathbf{x_{0}} - \mathbf{x_{0}}) = 0$ always hold, hence, $\mathbf{x_{0}}$ is a point within hyper-plane. As a result, equation \ref{hyperplane} can be explained intuitively as: Hyper-plane is a set of any point $\mathbf{x}$ which satisfied the vector $\mathbf{x} - \mathbf{x_{0}}$(start from a fixed point $\mathbf{x_{0}}$ which belong to this hyper-plane, end at $\mathbf{x}$) is perpendicular to a normal vector $\mathbf{w}$.
 \end{document}
