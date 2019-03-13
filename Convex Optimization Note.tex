@@ -161,5 +161,22 @@ Before we move to the definition of \textbf{minimal} point, we have to realize a
 \end{quote}
 Which means, if $\mathbf{x_{0}}$ is a minimal point of $\mathcal{S}$, there exist no element $\mathbf{y}$ within $\mathcal{S}$ which satisfied $\mathbf{y} \preceq_{\mathcal{K}} \mathbf{x_{0}}$(There is no element in $\mathcal{S}$ that smaller than $\mathbf{x_{0}}$). Furthermore, according to the fact that mentioned above, for some $\mathbf{y} \in \mathcal{S}$, even though $\mathbf{y} \npreceq_{\mathcal{K}} \mathbf{x_{0}}$, $\mathbf{x_{0}}$ does \textbf{not} need to satisfy $\mathbf{x_{0}} \preceq_{\mathcal{K}} \mathbf{y}$. As a result, $\mathbf{x_{0}}$ does not need to be the minimum point.
 
+\subsection{Minimum and Minimal with Dual Cone Perspective}
+If a point $\mathbf{x_{0}}$ is a minimum point of $\mathcal{S}$ with respect to cone $\mathcal{K}$, then, for any $\mathbf{x} \in \mathcal{S}$, there is:
+\begin{equation*}
+	\mathbf{x} - \mathbf{x_{0}} \in \mathcal{K}
+\end{equation*}
+According to the definition of dual cone, for the element $\mathbf{v}$ within $\mathcal{K}$, it must satisfy:
+\begin{equation*}
+	\mathbf{\lambda}^{T} \mathbf{b} > 0
+\end{equation*}
+Where $\mathbf{\lambda} \in \mathcal{K}^{*}$. Since $\mathbf{x} - \mathbf{x_{0}} \in \mathcal{K}$, we have:
+\begin{equation*}
+	\mathbf{\lambda}^{T} (\mathbf{x} - \mathbf{x_{0}}) > 0
+\end{equation*}
+Which define a hyper-plane and a half-space with $\mathbf{x_{0}}$ as the fixed point according to equation \ref{hyperplane}. As a result, the minimum point of a set $\mathcal{S}$ with respect to a cone $\mathcal{K}$ and its' dual cone $\mathcal{K}^{*}$ can be illustrated as:
+\begin{quote}
+	If $\mathbf{x_{0}}$ is minimum point, then, for any $\mathbf{\lambda} \in \mathcal{K}^{*}$, the hyper-plane and half-space defined by $\mathbf{\lambda}$ and $\mathbf{x_{0}}$: $\mathbf{\lambda}^{T} (\mathbf{x} - \mathbf{x_{0}})$ should contain entire $\mathcal{S}$.
+\end{quote}
 
 \end{document}
