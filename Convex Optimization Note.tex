@@ -83,6 +83,7 @@ Which is equivalent to :
 and has the same form as equation \ref{affine_matrix}, where $\mathbf{c} = \mathcal{B} \mathbf{a_{i}}$.
 
 \section{Hyper-plane}
+\subsection{Definition}
 In a $\mathcal{R}^{n}$ space, the hyperplane is defined as a $n - 1$ dimension subspace plus a translate $\mathbf{x_{0}}$, which is perpendicular to a one dimension vector $\mathbf{w}$. The formal mathematical expression of hyper-plane $\mathcal{H}$ is:
 \begin{equation}
 	\mathcal{H} = \{ \mathbf{y} + \mathbf{x_{0}} |\, \mathbf{w}^{T}\mathbf{y} = 0  \}
@@ -94,4 +95,54 @@ We can denote $\mathbf{x} = \mathbf{y} + \mathbf{x_{0}}$, hence, equation \ref{h
 	\label{hyperplane}
 \end{equation}
 It is clearly that when $\mathbf{x} = \mathbf{x_{0}}$, $\mathbf{w}^{T} (\mathbf{x_{0}} - \mathbf{x_{0}}) = 0$ always hold, hence, $\mathbf{x_{0}}$ is a point within hyper-plane. As a result, equation \ref{hyperplane} can be explained intuitively as: Hyper-plane is a set of any point $\mathbf{x}$ which satisfied the vector $\mathbf{x} - \mathbf{x_{0}}$(start from a fixed point $\mathbf{x_{0}}$ which belong to this hyper-plane, end at $\mathbf{x}$) is perpendicular to a normal vector $\mathbf{w}$.
+
+Equation \ref{hyperplane} give us another way to represent hyper-plane:
+\begin{equation}
+	\mathcal{H} = \{ \mathbf{x} |\, \mathbf{w}^{T} \mathbf{x} = \mathbf{b} \}
+	\label{hyperplane2}
+\end{equation}
+Where $\mathbf{b} = \mathbf{w}^{T} \mathbf{x_{0}}$.
+
+\subsection{Half-space}
+Intuitively, a hyper-plane split the whole space into two part, each of them is called half-space. The formal mathematical expression for half-space, base on equation \ref{hyperplane}, is:
+\begin{equation*}
+	\{ \mathbf{x} |\, \mathbf{w}^{T}(\mathbf{x} - \mathbf{x_{0}}) < 0 \}
+\end{equation*}
+or
+\begin{equation*}
+	\{ \mathbf{x} |\, \mathbf{w}^{T}(\mathbf{x} - \mathbf{x_{0}}) > 0 \}
+\end{equation*}
+Which corresponding to the two split space. In geometric, two vector $\mathbf{v_{1}}$ and $\mathbf{v_{2}}$ satisfied: $\mathbf{v_{1}}^{T} \mathbf{v_{2}} > 0$ if their angle smaller than 90 degree, otherwise, $\mathbf{v_{1}}^{T} \mathbf{v_{2}} < 0$. As a result, the half-space $\{ \mathbf{x} |\, \mathbf{w}^{T}(\mathbf{x} - \mathbf{x_{0}}) < 0 \}$ is the set of point $\mathbf{x}$ which satisfied the vector $\mathbf{x} - \mathbf{x_{0}}$ have a angle greater than 90 degree with a normal vector $\mathbf{w}$. The half-space $\{ \mathbf{x} |\, \mathbf{w}^{T} (\mathbf{x} - \mathbf{x_{0}}) > 0 \}$ can be explained in the same way except the angle is smaller than 90 degree.
+
+Furthermore, according to \ref{hyperplane2}, the expression of half-space can also be written as:
+\begin{equation*}
+	\{ \mathbf{x} |\, \mathbf{w}^{T} \mathbf{x} < \mathbf{b} \}
+\end{equation*}
+Where $\mathbf{b} = \mathbf{w}^{T} \mathbf{x_{0}}$.
+
+\section{Cone}
+\subsection{Definition}
+A cone $\mathcal{K}$ is the set of any point $\mathbf{x}$ that satisfied: If $\mathbf{x} \in \mathcal{K}$, then, for any $\theta \geq 0$, $\theta \mathbf{x} \in \mathcal{K}$. A \textbf{convex} cone, as its' name suggest, is a cone which is also a convex set.
+
+\subsection{Property of Convex Cone}
+Assume a cone $\mathcal{K}$ is a convex cone, then, it satisfied:
+\begin{quote}
+	If $\mathbf{x_{1}} \in \mathcal{K}$ and $\mathbf{x_{2}} \in \mathcal{K}$, then, for any $0 \leq \theta \leq 1$, $\theta \mathbf{x_{1}} + (1 - \theta) \mathbf{x_{2}} \in \mathcal{K}$.
+\end{quote}
+Furthermore, for any $p, q > 0$, the expression $p \mathbf{x_{1}} + q \mathbf{x_{2}}$ can be written as:
+\begin{equation}
+	p \mathbf{x_{1}} + q \mathbf{x_{2}} = (p + q) (\frac{p}{p + q} \mathbf{x_{1}} + \frac{q}{p + q} \mathbf{x_{2}})
+\end{equation}
+Following the property of convex set, the point $(\frac{p}{p + q} \mathbf{x_{1}} + \frac{q}{p + q} \mathbf{x_{2}}) \in \mathcal{K}$. Additionally, since $(p + q) \in \mathcal{R}$ and $p + q > 0$, the definition of cone indicate $(p + q) (\frac{p}{p + q} \mathbf{x_{1}} + \frac{q}{p + q} \mathbf{x_{2}}) \in \mathcal{K}$. As a result, it can be seen within a convex cone $\mathcal{K}$:
+\begin{quote}
+	If $\mathbf{x_{1}}, \mathbf{x_{2}} \in \mathcal{K}$, then, for any $\theta_{1}, \theta_{2} > 0$, $\theta_{1} \mathbf{x_{1}} + \theta_{2} \mathbf{x_{2}} \in \mathcal{K}$
+\end{quote}
+
+\subsection{Dual Cone}
+In geometric, a point $\mathbf{x}$ can be defined as the end point of a vector that start with the original point($\mathbf{0}$) and terminate at point $\mathbf{x}$, which means, any point $\mathbf{x}$ can also be thought as a vector $\mathbf{x} - \mathbf{0}$. Base on this, the dual cone of a cone $\mathcal{K}$, denote as $\mathcal{K}^{*}$, is defined as the set of any point $\mathbf{\lambda}$ which satisfied $\mathbf{\lambda}^{T} \mathbf{x} > 0$ for all $\mathbf{x} \in \mathcal{K}$, which means, the \textbf{vector} $\mathbf{\lambda} $ have the angle smaller than 90 degree for any \textbf{vector} $\mathbf{x} - \mathbf{0}$ defined by the point $\mathbf{x}$ in $\mathcal{K}$. 
+
+Furthermore, the expression $\mathbf{\lambda}^{T} \mathbf{x} > 0$ define a half-space according to equation \ref{hyperplane}, where the fixed point $\mathbf{x_{0}}$ is the original point. As a result, the dual cone of $\mathcal{K}$ can also be illustrated as:
+\begin{quote}
+	A point $\mathbf{\lambda}$ is in $\mathcal{K}^{*}$ if the half-space with the \textbf{vector} $\mathbf{\lambda}$ as normal vector, which expressed as $\mathbf{\lambda}\mathbf{x} > 0$, contain the original cone $\mathcal{K}$.
+\end{quote}
 \end{document}
