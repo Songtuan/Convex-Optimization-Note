@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.8)  13 MAR 2019 16:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.8)  14 MAR 2019 00:27
 entering extended mode
 **"./Convex Optimization Note.tex"
 ("Convex Optimization Note.tex"
@@ -205,7 +205,7 @@ Here is how much of TeX's memory you used:
  5606 multiletter control sequences out of 15000+200000
  12122 words of font info for 47 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 27i,8n,25p,731b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 27i,8n,25p,778b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/lst19/AppData/Local/Program
 s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lst19/AppData/
 Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/l
@@ -220,10 +220,11 @@ AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/
 Users/lst19/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
 r7.pfb><C:/Users/lst19/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/ams
 fonts/cm/cmsy10.pfb><C:/Users/lst19/AppData/Local/Programs/MiKTeX 2.9/fonts/typ
-e1/public/amsfonts/cm/cmsy7.pfb>
-Output written on "Convex Optimization Note.pdf" (4 pages, 144191 bytes).
+e1/public/amsfonts/cm/cmsy7.pfb><C:/Users/lst19/AppData/Local/Programs/MiKTeX 2
+.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on "Convex Optimization Note.pdf" (4 pages, 148454 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
+ 67 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

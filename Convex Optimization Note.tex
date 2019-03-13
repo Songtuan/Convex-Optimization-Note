@@ -151,9 +151,15 @@ We can define the generalized inequality based on the concept of cone:
 \begin{quote}
 	$\mathbf{x}$ is smaller than $\mathbf{y}$ respect to a specific cone $\mathcal{K}$ if  $\mathbf{y} - \mathbf{x} \in \mathcal{K}$. Denote as: $\mathbf{x} \prec_{\mathcal{K}} \mathbf{y}$
 \end{quote}
-Start from the definition of generalized inequality, we can define \textbf{minimum} and \textbf{minimal} value of a set $\mathcal{S}$ respect to a specific cone $\mathcal{K}$:
+Start from the definition of generalized inequality, we can define \textbf{minimum} and \textbf{minimal} value of a set $\mathcal{S}$ with respect to a specific cone $\mathcal{K}$:
 \begin{quote}
 	The point $\mathbf{x_{0}} \in \mathcal{S}$ is said to be the \textbf{minimum} of $\mathcal{S}$ if for any other $\mathbf{y} \in \mathcal{S}$, the expression $\mathbf{x} \preceq_{\mathcal{K}} \mathbf{y}$ always holds.
 \end{quote}
+Before we move to the definition of \textbf{minimal} point, we have to realize an important fact with respect to generalized inequality: When $\mathbf{y} \npreceq_{\mathcal{K}} \mathbf{x}$ hold, it \textbf{does not} mean $\mathbf{x} \preceq_{\mathcal{K}} \mathbf{y}$, which means, even though $\mathbf{y}$ is not smaller than $\mathbf{x}$ (with respect to a specific cone $\mathcal{K}$), it \textbf{does not} implies that $\mathbf{x}$ is smaller or equal to $\mathbf{y}$. This fact implies that a point smaller than any other element of a set is not equal to there is no other element within this set that smaller than the point. We can now introduce the definition of \textbf{minimal} point with respect to cone $\mathcal{K}$:
+\begin{quote}
+	A point $\mathbf{x_{0}}$ is minimal point of $\mathcal{S}$ if for any $\mathbf{y} \in \mathcal{S}$, $\mathbf{y} \npreceq_{\mathcal{K}} \mathbf{x_{0}}$ always hold unless $\mathbf{y} = \mathbf{x_{0}}$ 
+\end{quote}
+Which means, if $\mathbf{x_{0}}$ is a minimal point of $\mathcal{S}$, there exist no element $\mathbf{y}$ within $\mathcal{S}$ which satisfied $\mathbf{y} \preceq_{\mathcal{K}} \mathbf{x_{0}}$(There is no element in $\mathcal{S}$ that smaller than $\mathbf{x_{0}}$). Furthermore, according to the fact that mentioned above, for some $\mathbf{y} \in \mathcal{S}$, even though $\mathbf{y} \npreceq_{\mathcal{K}} \mathbf{x_{0}}$, $\mathbf{x_{0}}$ does \textbf{not} need to satisfy $\mathbf{x_{0}} \preceq_{\mathcal{K}} \mathbf{y}$. As a result, $\mathbf{x_{0}}$ does not need to be the minimum point.
+
 
 \end{document}
