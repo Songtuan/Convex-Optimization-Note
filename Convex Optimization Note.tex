@@ -179,4 +179,66 @@ Which define a hyper-plane and a half-space with $\mathbf{x_{0}}$ as the fixed p
 	If $\mathbf{x_{0}}$ is minimum point, then, for any $\mathbf{\lambda} \in \mathcal{K}^{*}$, the hyper-plane and half-space defined by $\mathbf{\lambda}$ and $\mathbf{x_{0}}$: $\mathbf{\lambda}^{T} (\mathbf{x} - \mathbf{x_{0}})$ should contain entire $\mathcal{S}$.
 \end{quote}
 
+\section{Convex Function}
+
+\subsection{Definition}
+A function $f(\mathbf{x})$ is called convex function if it satisfied:
+\begin{equation}
+	f(\theta \mathbf{x_{2}} + (1 - \theta) \mathbf{x_{2}]}) \leq \theta \mathbf{x_{1}} + (1 - \theta) \mathbf{x_{2}}
+\end{equation}
+for any $\mathbf{x_{1}}, \mathbf{x_{2}} \in \mathbf{dom} f$ and $0 \leq \theta \leq 1$.
+
+\subsection{Conditions}
+A function $f(\mathbf{x})$ is a convex function if it satisfied one of the following conditions:
+
+\subsubsection{First-Order Condition}
+If $f(\mathbf{x})$ is differentiable, then, for any $\mathbf{x} \in \mathbf{dom} f$ and an arbitrary $\mathbf{x_{0}}$, the first-order derivative if $f$ should satisfied:
+\begin{equation}
+	f(\mathbf{x}) \geq f(\mathbf{x_{0}}) + \nabla f(\mathbf{x_{0}})(\mathbf{x} - \mathbf{x_{0}})
+	\label{1-condition}
+\end{equation}
+The right hand side of this inequality is the first-order Taylor expression, which can be written as:
+\begin{equation*}
+	g(\mathbf{x}) = f(\mathbf{x_{0}}) + \nabla f(\mathbf{x_{0}})(\mathbf{x} - \mathbf{x_{0}})
+\end{equation*}
+In $\mathcal{R}^{2}$, $g(\mathbf{x})$ is a line that go through $(\mathbf{x_{0}}, f(\mathbf{x_{0}}))$ and 'support' $f$ at this point. As a result, the first-order condition can be explained as: For any point $\mathbf{x}$, the value of function $f$ at this point is greater or equal to the value of $g$ at the same point $\mathbf{x}$. Moreover, in $\mathcal{R}^{n}$, $g(\mathbf{x})$ indeed defien a hyper-plane, the prove can be shown as: The function $g(\mathbf{x})$ can be written as:
+\begin{equation*}
+	\nabla f(\mathbf{x_{0}})(\mathbf{x} - \mathbf{x_{0}}) - (g(\mathbf{x}) - f(\mathbf{x_{0}})) = 0
+\end{equation*}
+Which has the form:
+\begin{equation}
+	\begin{bmatrix}
+	\nabla f(\mathbf{x_{0}}) \\
+	-1
+	\end{bmatrix} ^{T}(
+	\begin{bmatrix}
+		\mathbf{x} \\
+		g(\mathbf{x})
+	\end{bmatrix} - 
+	\begin{bmatrix}
+		\mathbf{x_{0}} \\
+		f(\mathbf{x_{0}})
+	\end{bmatrix}) = 0
+	\label{first-order-condition}
+\end{equation}
+It is obvious that the above equation define a hyper-plane. Hence, the first-order condition can also be expression as: For any $\mathbf{x} \in \mathbf{dom}f$, the point $(\mathbf{x}, f(\mathbf{x}))$ is above the hyper-plane defined by equation \ref{first-order-condition} through some fixed point $(\mathbf{x_{0}, f(\mathbf{x_{0}})})$, which means, it is in the half-space given by this hyper-plane. This can be proved through:
+\begin{equation*}
+	\begin{bmatrix}
+	\nabla f(\mathbf{x_{0}}) \\
+	-1
+	\end{bmatrix} ^{T}(
+	\begin{bmatrix}
+		\mathbf{x} \\
+		f(\mathbf{x})
+	\end{bmatrix} - 
+	\begin{bmatrix}
+		\mathbf{x_{0}} \\
+		f(\mathbf{x_{0}})
+	\end{bmatrix}) \leq 0
+\end{equation*}
+Furthermore, when $\nabla f(\mathbf{x_{0}}) = 0$ in some point $(\mathbf{x_{0}}, f(\mathbf{x_{0}}))$, the equation \ref{1-condition} become:
+\begin{equation*}
+	f(\mathbf{x}) \geq f(\mathbf{x_{0}})
+\end{equation*}
+Hence, $f(\mathbf{x_{0}})$ is the minimum value of function $f$, which is why for convex function, the point that first-order derivative equal to zero is the minimizer of this function.
 \end{document}
