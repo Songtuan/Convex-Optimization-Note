@@ -4,10 +4,10 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{parskip}
+\usepackage{tikz}
 \author{Garrick Lin}
 \title{Convex Optimization Note}
-\setlength{\parindent}{0cm}
-\setlength{\parskip}{15pt}
 \begin{document}
 \maketitle
 
@@ -201,11 +201,11 @@ The right hand side of this inequality is the first-order Taylor expression, whi
 \begin{equation*}
 	g(\mathbf{x}) = f(\mathbf{x_{0}}) + \nabla f(\mathbf{x_{0}})(\mathbf{x} - \mathbf{x_{0}})
 \end{equation*}
-In $\mathcal{R}^{2}$, $g(\mathbf{x})$ is a line that go through $(\mathbf{x_{0}}, f(\mathbf{x_{0}}))$ and 'support' $f$ at this point. As a result, the first-order condition can be explained as: For any point $\mathbf{x}$, the value of function $f$ at this point is greater or equal to the value of $g$ at the same point $\mathbf{x}$. Moreover, in $\mathcal{R}^{n}$, $g(\mathbf{x})$ indeed defien a hyper-plane, the prove can be shown as: The function $g(\mathbf{x})$ can be written as:
+Therefore, the first-order condition can be explained as: For any point $\mathbf{x}$, the value of function $f$ at this point is greater or equal to the value of $g$ at the same point $\mathbf{x}$. In $\mathcal{R}^{2}$, the function $g(\mathbf{x})$ define a line that is tangent to $f(\mathbf{x})$ at $(\mathbf{x_{0}}, f(\mathbf{x_{0}}))$. Moreover, in $\mathcal{R}^{n}$, $g(\mathbf{x})$ indeed define a \textit{support} hyper-plane as the function $g(\mathbf{x})$ can be written as:
 \begin{equation*}
 	\nabla f(\mathbf{x_{0}})(\mathbf{x} - \mathbf{x_{0}}) - (g(\mathbf{x}) - f(\mathbf{x_{0}})) = 0
 \end{equation*}
-Which has the form:
+Which is the same as:
 \begin{equation}
 	\begin{bmatrix}
 	\nabla f(\mathbf{x_{0}}) \\
@@ -221,7 +221,7 @@ Which has the form:
 	\end{bmatrix}) = 0
 	\label{first-order-condition}
 \end{equation}
-It is obvious that the above equation define a hyper-plane. Hence, the first-order condition can also be expression as: For any $\mathbf{x} \in \mathbf{dom}f$, the point $(\mathbf{x}, f(\mathbf{x}))$ is above the hyper-plane defined by equation \ref{first-order-condition} through some fixed point $(\mathbf{x_{0}, f(\mathbf{x_{0}})})$, which means, it is in the half-space given by this hyper-plane. This can be proved through:
+It is obvious that the above equation define a hyper-plane. Hence, the first-order condition can also be expressed as: For any $\mathbf{x} \in \mathbf{dom}f$, the point $(\mathbf{x}, f(\mathbf{x}))$ is above the hyper-plane defined by equation \ref{first-order-condition} through some fixed point $(\mathbf{x_{0}, f(\mathbf{x_{0}})})$, which means, it is in the half-space given by this hyper-plane. This can be proved through:
 \begin{equation*}
 	\begin{bmatrix}
 	\nabla f(\mathbf{x_{0}}) \\
@@ -236,9 +236,214 @@ It is obvious that the above equation define a hyper-plane. Hence, the first-ord
 		f(\mathbf{x_{0}})
 	\end{bmatrix}) \leq 0
 \end{equation*}
-Furthermore, when $\nabla f(\mathbf{x_{0}}) = 0$ in some point $(\mathbf{x_{0}}, f(\mathbf{x_{0}}))$, the equation \ref{1-condition} become:
+Which define a half-space. Furthermore, when $\nabla f(\mathbf{x_{0}}) = 0$ in some point $(\mathbf{x_{0}}, f(\mathbf{x_{0}}))$, the equation \ref{1-condition} become:
 \begin{equation*}
 	f(\mathbf{x}) \geq f(\mathbf{x_{0}})
 \end{equation*}
 Hence, $f(\mathbf{x_{0}})$ is the minimum value of function $f$, which is why for convex function, the point that first-order derivative equal to zero is the minimizer of this function.
+
+Indeed, we can have a geometry interpretation of term $\nabla f(\mathbf{x_{0}}) (\mathbf{x} - \mathbf{x_{0}})$ over $\mathcal{R}^{2}$:
+\begin{center}
+	\begin{tikzpicture}
+		\draw (0, 0) circle (1pt) node[left](x){$x_0$} to (3, 2) circle (1pt) node[right](y){$t$};
+		\draw[dashed]  (0, 0) -- (3, 0) circle (1pt) node[right]{$x$} -- (3, 2);
+	\end{tikzpicture}
+\end{center}
+The straight line that pass through  has the slope $\nabla f(\mathbf{x_{0}})$, the term $\nabla f(x_{0})(x - x_{0})$ is actually the length of the line segment between points $t$ and $x$. Hence, if $\nabla f(x_{0})(x - x_{0}) \geq 0$, the length of line segment between $x$ and $t$ is positive and hence the point $t$ is above the point $x_{0}$. By contrast, if $\nabla f(x_{0})(x - x_{0}) \leq 0$, the point $t$ is below the point $x_{0}$. Furthermore, we can also see that the term $f(x_{0}) + \nabla f(x_{0})(x - x_{0})$ is actually the value of $f(x_{0})$ plus the length of line segment between $t$ and $x$.
+\subsubsection{Second-Order Condition}
+If function $f(\mathbf{x})$ is twice differentiable, then, $f(\mathbf{x})$ is convex if and only if it's second-order Hessian Matrix is positive semi-definite:
+\begin{equation}
+	\nabla^{2} f(\mathbf{x}) \succeq 0
+\end{equation}
+
+This condition is more often be used to verify whether a function is convex than the first-order condition as it is more convenient to compute Hessian Matrix and determine whether it is positive semi-definite. By contrast, the first-order condition works more like a property that indicate for convex function, it's minimum value exist at point $\mathbf{x_{0}}$ which satisfied $\nabla f(\mathbf{x_{0}}) = 0$.
+
+Even though the second-order condition provide a good way to verify the convexity of a function $f$, a more easier way to verify the convexity is to prove that $f(\mathbf{x})$ is constructed by some operations that preserve convexity. These operation will be describe in the next part.
+
+\subsection{Operation that Preserve Convexity}
+A function $f(\mathbf{x})$ is convex if it can be constructed through one of the following operation: 
+
+\subsubsection{Non-negative Weighted Sum}
+Function $f(\mathbf{x})$ is convex if it can be constructed through:
+\begin{equation*}
+	f(\mathbf{x}) = \displaystyle\sum_{i = 1}^{n}a_{i} f_{i}(\mathbf{x})
+\end{equation*}
+Where $a_{i} \geq 0$ and $f_{i}(\mathbf{x})$ is convex. 
+
+\subsubsection{Point-wise maximum}
+Function $f(\mathbf{x})$ is convex if it is the point-wise maximum of some convex function:
+\begin{equation*}
+	f(\mathbf{x}) = max\{ f_{1}(\mathbf{x}), f_{2}(\mathbf{x}), \cdots, f_{n}(\mathbf{x}) \}
+\end{equation*}
+Where $f_{i}(\mathbf{x})$ is convex. Based on this property, it can also be proved that function $f(\mathbf{x})$ is convex if it is the supreme of function $g(\mathbf{x}, \mathbf{y})$ over $\mathbf{y}$:
+\begin{equation*}
+	f(\mathbf{x}) = \displaystyle\sup_{\mathbf{y}}g(\mathbf{x}, \mathbf{y})
+\end{equation*}
+As $f(\mathbf{x})$ can be constructed through:
+\begin{equation*}
+	f(\mathbf{x}) = max \{ g(\mathbf{x}, \mathbf{y_{1}}), g(\mathbf{x}, \mathbf{y_{2}}), \cdots, g(\mathbf{x}, \mathbf{y_{n}}) \}
+\end{equation*}
+Where $\mathbf{dom}_{y}g(\mathbf{x}, \mathbf{y}) = \{ \mathbf{y_{1}}, \mathbf{y_{2}}, \cdots, \mathbf{y_{n}} \}$
+
+\subsubsection{Composition}
+Function $f(\mathbf{x})$ is convex if it is a composition of other function:
+\begin{equation*}
+	f(\mathbf{x}) = h(g(\mathbf{x}))
+\end{equation*}
+with function $h(\mathbf{y}), g(\mathbf{y})$ under some constrains, which can be derived directly from:
+\begin{equation}
+	\nabla_{2}f(\mathbf{x}) = \nabla_{2} h(g(\mathbf{x})) (\nabla g(\mathbf{x}))^{2} + \nabla h(g(\mathbf{x})) \nabla_{2}g(\mathbf{x}) \geq 0
+	\label{composition}
+\end{equation}
+e.g. If $g(\mathbf{y}), h(\mathbf{y})$ is convex and $h(\mathbf{y})$ is non-decreasing, then, $\nabla_{2} h(g(\mathbf{x})) \geq 0$, $\nabla h(g(\mathbf{x})) \geq 0$ and $\nabla_{2} g(\mathbf{x}) \geq 0$. Hence, equation \ref{composition} always hold, which means $f(\mathbf{x})$ is convex. The other constrains can be derived based on the similarly.
+
+\subsection{Epigraph}
+The epigraph is another thing that we can used to prove convexity. Geometrically, the epigraph of a function $f(\mathbf{x})$ is the area that above the graph of $f(\mathbf{x})$. Mathematically, the epigraph of a function $f(\mathbf{x})$ can be defined as a set of points that satisfied:
+\begin{equation*}
+	\{ (\mathbf{x}, t) |\, f(\mathbf{x}) \leq t \}
+\end{equation*} 
+The function $f(\mathbf{x})$ is convex if the point within its' epigraph form a convex set.
+
+\section{Conjugate Function}
+
+\subsection{Definition}
+The conjugate function of $f(\mathbf{x})$, denote as $f^{*}$, can be defined as:
+\begin{equation}
+	f^{*}(\mathbf{y}) = \displaystyle\sup_{\mathbf{x}} \Big(\mathbf{y}^{T} \mathbf{x} - f(\mathbf{x}) \Big)
+	\label{conjugate}
+\end{equation}
+In order to complete the definition of conjugate function $f^{*}(\mathbf{y})$, we need to define the domain of $f^{*}$, \textsl{i.e.} the range of $\mathbf{y}$: The domain of $f^{*}$ is the $\mathbf{y}$ that make $f^{*}(\mathbf{y})$ finite:
+\begin{equation*}
+	\mathbf{dom}f^{*}(\mathbf{y}) = \{ \mathbf{y} |\, -\infty < f^{*}(\mathbf{y}) < \infty \}
+\end{equation*}
+
+\subsection{Find Conjugate Function}
+A simple procedure that may be used to find conjugate function of $f(\mathbf{x})$ is:
+\begin{enumerate}
+	\item Establish the domain $\mathbf{dom}f^{*}(\mathbf{y})$, this may be done by observing or experiment, \textsl{e.g.} start from lower dimension (2-dimension), find the range of $\mathbf{y}$ that cause $f^{*}(\mathbf{y})$ goes to infinity and exclude these range.
+	\item Find the supreme of $\mathbf{y}^{T} \mathbf{x} - f(\mathbf{x})$ over $\mathbf{x}$. Some general method to do this are:
+	\begin{itemize}
+		\item Take the gradient of $\mathbf{x}$ and set it to zero.
+		\item By observing.
+	\end{itemize}
+\end{enumerate} 
+
+\section{Quasiconvex Function}
+
+Before we introduce the definition of quasiconvex function, we need first familiar with the concept of $\alpha$-sublevel set. The $\alpha$-sublevel set $\mathcal{S}_{\alpha}$ of a function $f(\mathbf{x})$ is the set of $\mathbf{x}$ that satisfied $f(\mathbf{x}) \leq \alpha$:
+\begin{equation}
+	\mathcal{S}_{\alpha} = \{ \mathbf{x} |\, f(\mathbf{x}) \leq \alpha \}
+\end{equation}
+Based on the concept of $\alpha$-sublevel set, we can give the definition of quasiconvex function:
+\begin{center}
+	\begin{quote}
+		The function $f(\mathbf{x})$ is quasiconvex if and only if for any $\alpha \in \mathcal{R}$, the $\alpha$-sublevel set of $f(\mathbf{x})$ is convex.
+	\end{quote}
+\end{center}
+Indeed, for any $\mathbf{y} \in \mathbf{dom}f$, we can make $\alpha = f(\mathbf{y})$. Hence, the $\alpha$-sublevel set $\mathcal{S}_{\alpha}$ is convex. By noticing that $f(\mathbf{y}) \leq f(\mathbf{y})$ always hold, we can conclude that $\mathbf{y} \in \mathcal{S}_{\alpha}$. Therefore, for any $\mathbf{x} \in \mathcal{S}_{\alpha}$ and $\mathbf{y}$, $\theta \mathbf{x} + (1 - \theta) \mathbf{y} \in \mathcal{S}_{\alpha}$ and hence, $f(\theta \mathbf{x} + (1 - \theta) \mathbf{y}) \leq f(\mathbf{y})$. As a result, we can draw a simple conclude about quasiconvex function $f$: For any $\mathbf{x}, \mathbf{y} \in \mathbf{dom}f$ and $0 \leq \theta \leq 1$, there is
+\begin{equation}
+	f(\theta \mathbf{x} + (1 - \theta) \mathbf{y}) \leq max\{ f(\mathbf{x}), f(\mathbf{y}) \}
+\end{equation}
+This is the first order property of quasiconvex function.
+
+\section{Convex Optimization Problem}
+After we have described some basic concept, we can now start to formalize the concept of convex optimization problem. We will first give the definition of general optimization problem.
+
+\subsection{General Optimization Problem}
+The general optimization problem has the stand form:
+\begin{equation}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m
+	\end{aligned}
+\end{equation}
+The \textit{domain} $\mathcal{D}$ of this optimization problem is:
+\begin{equation*}
+	\mathcal{D} = \mathbf{dom}f_{0} \cap \cdots \cap \mathbf{dom}f_{n} \cap \mathbf{dom}h_{1} \cap \cdots \cap \mathbf{dom}h_{m}
+\end{equation*}
+Indeed, we can think of that the constrains $f_{i}(\mathbf{x})$ and $h_{i}(\mathbf{x})$ define a set $\mathcal{C}$ of $\mathbf{x}$:
+\begin{equation*}
+	\mathcal{C} = \{ \mathbf{x} |\, f_{i}(\mathbf{x}) \leq 0(i = 1, \cdots n), h_{j}(\mathbf{x}) = 0(j = 1, \cdots m) \}
+\end{equation*}
+And the goal of optimization problem is to find a $\mathbf{x^{*}} \in \mathcal{C}$ that minimize $f_{0}(\mathbf{x})$. The set $\mathcal{C}$ here is called feasible set and a $\mathbf{x}$ is called feasible if $\mathbf{x} \in \mathcal{C}$. Generally, we are more interesting in a special type of optimization problem, which is convex optimization problem.
+
+\subsection{Convex Optimization Problem}
+Convex optimization problem is a specific type of optimization problem, in which, the function $f_{i}(\mathbf{x}) \, (i = 0, 1, \cdots n)$ is convex and $h_{j}(\mathbf{x}) \, (j = 1, 2, \cdots m)$ is affine(linear). Mathematically, convex optimization problem can be expressed as:
+\begin{equation}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& \mathcal{A} \mathbf{x} = \mathbf{b} 
+	\end{aligned}
+\end{equation}
+Where $f_{i}(\mathbf{x}) \, (i = 0, 1, \cdots n)$ is convex.
+
+\subsection{Special Cases}
+Some convex optimization problem with special constrain have typical solutions. Particularly, the convex optimization problem that only have equality constrains:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{x} \quad & f_{0}(\mathbf{x}) \\
+		\textsl{s.t.} \quad & \mathcal{A} \mathbf{x} = \mathbf{b}
+	\end{aligned}
+\end{equation*}
+In this case, we first notice that if we can find a $\mathbf{x_{0}}$ that satisfied $\mathcal{A} \mathbf{x_{0}} = \mathbf{b}$, then, the following equation:
+\begin{equation}
+	\mathcal{A}(\mathbf{z} + \mathbf{x_{0}}) = \mathbf{b}
+\end{equation}
+always hold for any $\mathbf{z}$ that satisfied $\mathcal{A} \mathbf{z} = 0$. Hence, we can conclude that for every $\mathbf{x}$ that satisfied $\mathcal{A} \mathbf{x} = \mathbf{b}$, it can be decomposed as a variable $\mathbf{z}$ plus a fixed vector $\mathbf{x_{0}}$:
+\begin{equation}
+	\mathbf{x} = \mathbf{z} + \mathbf{x_{0}}
+	\label{linear_1}
+\end{equation}
+Where $\mathbf{z}$ is in the null space of $\mathcal{A}$ ($\mathbf{z} \in \mathcal{N}(\mathcal{A})$). Furthermore, we can find the biases of null space of $\mathcal{A}$, denote as $\mathcal{M}$ and express $\mathbf{z}$ as:
+\begin{equation}
+	\mathbf{z} = \mathcal{M} \mathbf{y}
+	\label{linear_2}
+\end{equation}
+Where $\mathbf{y} \in \mathcal{R}^{n}$. The Equation \ref{linear_2} means that $\mathbf{z}$ is arbitrary linear combination of the biases of $\mathcal{N}(\mathcal{A})$. By the combination of Equation \ref{linear_1} and \ref{linear_2}, the original problem can be refined as:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle \min_{\mathbf{y}} \quad & f_{0}(\mathcal{M} \mathbf{y} + \mathbf{x_{0}})
+	\end{aligned}
+\end{equation*}
+With the feasible set $\mathcal{C}_{\mathbf{y}} = \{ \mathbf{y} |\, \mathbf{y} \in \mathcal{R}^{n} \}$. By transforming the feasible to $\mathcal{R}^{n}$, we reduce the difficulty to find the optimal value of $\mathbf{f}_{0}$. Indeed, this is the idea that where \textit{Lagrangian} come from, which will be explained in detail later.
+
+\subsection{Equivalent Problem}
+By inspecting the transforming we have done in section 7.3, it can be seen that even though we introduce a new variable $\mathbf{y}$ and define a new feasible set $\mathcal{C}_{\mathbf{y}}$, we did not change the original feasible set $\mathcal{C}_{\mathbf{x}}$ of $\mathbf{x}$, \textsl{i.e.} $\mathcal{C}_{\mathbf{x}} = \{ \mathbf{x} |\, \mathcal{A} \mathbf{x} = \mathbf{b} \} =  \{ \mathbf{x} |\, \mathbf{x} = \mathcal{M} \mathbf{y} + \mathbf{x_{0}}, \mathbf{y} \in \mathcal{R}^{n} \}$. Hence, we did not change the optimal point of $f_{0}$. 
+
+This observation tell us that we can construct a equivalent optimization problem with the original feasible set and optimal point unchanged. One important technology that used to construct equivalent problem is by introducing new variable. Particularly, when the objective function $f_{0}$ has the form $f_{0}(\mathbf{x}) = \frac{p(\mathbf{x})}{q(\mathbf{x})}$ and satisfied $p(t \mathbf{x}) = t p(\mathbf{x}), q(t \mathbf{x}) = t q(\mathbf{x})$ for any $t$. Hence, the convex optimization problem is:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle \min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) = \frac{p(\mathbf{x})}{q(\mathbf{x})} \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m
+	\end{aligned}
+\end{equation*}
+The property $p(t \mathbf{x}) = t p(\mathbf{x}), q(t \mathbf{x}) = t q(\mathbf{x})$ implied $\frac{p(t \mathbf{x})}{q(t \mathbf{x})} = \frac{p(\mathbf{x})}{q(\mathbf{x})}$ and  means that we can multiple $\mathbf{x}$ with any $t$ without change the value of $f_{0}(\mathbf{x})$(the optimal value will not be changed under this multiplication operation). As a result, we can always find a $t$ that satisfied $q(t \mathbf{x}) = 1$ and $\frac{p(t \mathbf{x})}{q(t \mathbf{x})} = \frac{p(\mathbf{x})}{q(\mathbf{x})} = p(\mathbf{x})$, which means, we can construct a equivalent problem as:
+\begin{equation}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & p(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m \\
+		& q(t \mathbf{x}) - 1 = 0
+	\end{aligned}
+\end{equation}
+Since the last constrain $q(t \mathbf{x}) - 1 = 0$ define the feasible set of $t$, which is unrelated to the objective function $p(\mathbf{x})$, this constrain can be ignored. Hence, the problem can be further refined as:
+\begin{equation}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & p(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m \\
+	\end{aligned}
+\end{equation}
+We can verify the problem is equivalent by checking the optimal value and feasible set is unchanged. More general, we can multiple both $p(\mathbf{x})$ and $q(\mathbf{x})$ with a variable $t$ and force $t q(\mathbf{x}) = 1$. As a result, we successfully remove the numerator $q(\mathbf{x})$ and construct an equivalent problem as follow:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & t p(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m \\
+		& t q(\mathbf{x}) - 1 = 0
+	\end{aligned}
+\end{equation*}
 \end{document}
