@@ -410,9 +410,9 @@ Where $\mathbf{y} \in \mathcal{R}^{n}$. The Equation \ref{linear_2} means that $
 With the feasible set $\mathcal{C}_{\mathbf{y}} = \{ \mathbf{y} |\, \mathbf{y} \in \mathcal{R}^{n} \}$. By transforming the feasible to $\mathcal{R}^{n}$, we reduce the difficulty to find the optimal value of $\mathbf{f}_{0}$. Indeed, this is the idea that where \textit{Lagrangian} come from, which will be explained in detail later.
 
 \subsection{Equivalent Problem}
-By inspecting the transforming we have done in section 7.3, it can be seen that even though we introduce a new variable $\mathbf{y}$ and define a new feasible set $\mathcal{C}_{\mathbf{y}}$, we did not change the original feasible set $\mathcal{C}_{\mathbf{x}}$ of $\mathbf{x}$, \textsl{i.e.} $\mathcal{C}_{\mathbf{x}} = \{ \mathbf{x} |\, \mathcal{A} \mathbf{x} = \mathbf{b} \} =  \{ \mathbf{x} |\, \mathbf{x} = \mathcal{M} \mathbf{y} + \mathbf{x_{0}}, \mathbf{y} \in \mathcal{R}^{n} \}$. Hence, we did not change the optimal point of $f_{0}$. 
+By inspecting the transforming we have done in section 7.3, it can be seen that even though we introduce a new variable $\mathbf{y}$ and define a new feasible set $\mathcal{C}_{\mathbf{y}}$, we did not change the original feasible set $\mathcal{C}_{\mathbf{x}}$ of $\mathbf{x}$, \textsl{i.e.} $\mathcal{C}_{\mathbf{x}} = \{ \mathbf{x} |\, \mathcal{A} \mathbf{x} = \mathbf{b} \} =  \{ \mathbf{x} |\, \mathbf{x} = \mathcal{M} \mathbf{y} + \mathbf{x_{0}}, \mathbf{y} \in \mathcal{R}^{n} \}$. Hence, we did not change the optimal value of $f_{0}$. 
 
-This observation tell us that we can construct a equivalent optimization problem with the original feasible set and optimal point unchanged. One important technology that used to construct equivalent problem is by introducing new variable. Particularly, when the objective function $f_{0}$ has the form $f_{0}(\mathbf{x}) = \frac{p(\mathbf{x})}{q(\mathbf{x})}$ and satisfied $p(t \mathbf{x}) = t p(\mathbf{x}), q(t \mathbf{x}) = t q(\mathbf{x})$ for any $t$. Hence, the convex optimization problem is:
+This observation tell us that we can construct a equivalent optimization problem if we can guarantee the new optimization problem has the same optimal value with the original problem (In some cases, the feasible set may not even need to be equal). One particular example is the convex optimization problem with objective function $f_{0}(\mathbf{x})$ satisfied $f_{0}(\mathbf{x}) = \frac{p(\mathbf{x})}{q(\mathbf{x})}$ and $p(t \mathbf{x}) = t p(\mathbf{x}), q(t \mathbf{x}) = t q(\mathbf{x})$ for any $t$:
 \begin{equation*}
 	\begin{aligned}
 		\displaystyle \min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) = \frac{p(\mathbf{x})}{q(\mathbf{x})} \\
@@ -420,24 +420,32 @@ This observation tell us that we can construct a equivalent optimization problem
 		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m
 	\end{aligned}
 \end{equation*}
-The property $p(t \mathbf{x}) = t p(\mathbf{x}), q(t \mathbf{x}) = t q(\mathbf{x})$ implied $\frac{p(t \mathbf{x})}{q(t \mathbf{x})} = \frac{p(\mathbf{x})}{q(\mathbf{x})}$ and  means that we can multiple $\mathbf{x}$ with any $t$ without change the value of $f_{0}(\mathbf{x})$(the optimal value will not be changed under this multiplication operation). As a result, we can always find a $t$ that satisfied $q(t \mathbf{x}) = 1$ and $\frac{p(t \mathbf{x})}{q(t \mathbf{x})} = \frac{p(\mathbf{x})}{q(\mathbf{x})} = p(\mathbf{x})$, which means, we can construct a equivalent problem as:
+Since $q(t \mathbf{x}) = t q(\mathbf{x})$, for any $\mathbf{x}$ and $q(\mathbf{x})$, we can fetch out a multiplier $t$ from $\mathbf{x}$:
+\begin{equation*}
+	\begin{aligned}
+		q(\mathbf{x}) &= q(t \mathbf{z}) \\
+		&= t q(\mathbf{z})
+	\end{aligned}
+\end{equation*}
+and force $q(\mathbf{z}) = 1$. This is equivalent to introduce a new variable $\mathbf{z}$ that satisfied $\mathbf{x} = t \mathbf{z}$. In the meantime, the same operation should apply to $p(\mathbf{x})$, hence, $p(\mathbf{x}) = t p(\mathbf{z})$. As a result, the objective function become:
 \begin{equation}
 	\begin{aligned}
-		\displaystyle\min_{\mathbf{x}} \quad & p(\mathbf{x}) \\
-		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
-		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m \\
-		& q(t \mathbf{x}) - 1 = 0
+		f_{0}(\mathbf{x}) &= \frac{t p(\mathbf{z})}{t q(\mathbf{z})} \\
+		&= \frac{p(\mathbf{z})}{q(\mathbf{z})} \\
+		&= p(\mathbf{z})
 	\end{aligned}
+	\label{equivalent}
 \end{equation}
-Since the last constrain $q(t \mathbf{x}) - 1 = 0$ define the feasible set of $t$, which is unrelated to the objective function $p(\mathbf{x})$, this constrain can be ignored. Hence, the problem can be further refined as:
-\begin{equation}
+This equation means that for any feasible $\mathbf{x}$, we can find a corresponding $\mathbf{z}$ that satisfied $q(\mathbf{z}) = 1$ and $f_{0}(\mathbf{x}) = p(\mathbf{z})$. As a result, we can focus on a subset of the original feasible set $\mathcal{C}$ that satisfied $\{ \mathbf{z} |\, \mathbf{z} \in \mathcal{C} \textit{ and } q(\mathbf{z}) = 1 \}$ and construct a equivalent optimization problem:
+\begin{equation*}
 	\begin{aligned}
-		\displaystyle\min_{\mathbf{x}} \quad & p(\mathbf{x}) \\
-		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
-		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots m \\
+		\displaystyle\min_{\mathbf{z}} \quad & p(\mathbf{z}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{z}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{z}) = 0 \quad j = 1, 2, \cdots m \\
+		& q(\mathbf{z}) - 1 = 0
 	\end{aligned}
-\end{equation}
-We can verify the problem is equivalent by checking the optimal value and feasible set is unchanged. More general, we can multiple both $p(\mathbf{x})$ and $q(\mathbf{x})$ with a variable $t$ and force $t q(\mathbf{x}) = 1$. As a result, we successfully remove the numerator $q(\mathbf{x})$ and construct an equivalent problem as follow:
+\end{equation*}
+We can verify these two problem is equivalent directly from Equation \ref{equivalent} which says these two problems have the same optimal value. More general, we can multiple both $p(\mathbf{x})$ and $q(\mathbf{x})$ with a variable $t$ and force $t q(\mathbf{x}) = 1$. As a result, we successfully remove the numerator $q(\mathbf{x})$ and construct an equivalent problem as follow:
 \begin{equation*}
 	\begin{aligned}
 		\displaystyle\min_{\mathbf{x}} \quad & t p(\mathbf{x}) \\
@@ -446,4 +454,199 @@ We can verify the problem is equivalent by checking the optimal value and feasib
 		& t q(\mathbf{x}) - 1 = 0
 	\end{aligned}
 \end{equation*}
+
+After we have gave the formal definition of convex optimization problem, we can start to introduce the method used to solve convex optimization problem. Indeed, most optimization problem, include convex optimization problem, are hard to solve. Hence, instead of solving the problem directly, we may consider to find the lower bound $d^{*}$ that satisfied $d^{*} \leq p^{*}$ ($p^{*}$ is the optimal value of original problem), which can be done through constructing the Lagrangian of original problem.
+
+\section{Lagrangian}
+For a convex optimization problem:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots n \\
+		& h_{j}(\mathbf{x}) \leq 0 \quad j = 1, 2, \cdots m
+	\end{aligned}
+\end{equation*}
+with domain $\mathcal{D}$ and optimal value $p^{*} = f_{0}(\mathbf{x}^{*})$. In order to find the lower bound of $p^{*}$, we can start with finding the lower bound of $f_{0}(\mathbf{x})$ for any feasible $\mathbf{x}$. Indeed, for any $\mathbf{x} \in \mathcal{C}$, it satisfied $f_{i}(\mathbf{x}) \leq 0$ and $h_{j}(\mathbf{x}) = 0$. Hence, we can find $\lambda_{i} \geq 0$ and $\nu_{j} \in \mathcal{R}$ to construct the inequality:
+\begin{equation}
+	f_{0}(\mathbf{x}) \geq f_{0}(\mathbf{x}) + \underbrace{\displaystyle\sum_{i = 1}^{n} \lambda_{i} f_{i}(\mathbf{x})}_\text{negative} + \underbrace{\displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x})}_\text{zero}
+	\label{Lagr_1}
+\end{equation}
+Additionally, for any feasible $\mathbf{x}$, the following inequality always hold:
+\begin{equation}
+	f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \geq \displaystyle\inf_{\mathbf{x} \in \mathcal{C}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big)
+	\label{Lagr_2}
+\end{equation}
+Combine Equation \ref{Lagr_1} and \ref{Lagr_2}, we have:
+\begin{equation}
+	f_{0}(\mathbf{x}) \geq \displaystyle\inf_{\mathbf{x} \in \mathcal{C}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big)
+	\label{Lagr_3}
+\end{equation}
+Technical speaking, the operation over feasible set may be difficult. Hence, we prefer to consider the problem over the whole domain $\mathcal{D}$. Firstly, we notice that the feasible set $\mathcal{C}$ is a subset of $\mathcal{D}$, hence, we have:
+\begin{equation}
+	\displaystyle\inf_{\mathbf{x} \in \mathcal{C}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big) \geq \displaystyle\inf_{\mathbf{x} \in \mathcal{D}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big)
+	\label{Lagr_4}
+\end{equation}
+as the infimum of a set is always small or equal to the infimum of it's subset. Combine Equation \ref{Lagr_3} and \ref{Lagr_4}, we have:
+\begin{equation}
+	f_{0}(\mathbf{x}) \geq \displaystyle\inf_{\mathbf{x} \in \mathcal{D}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big)
+\end{equation}
+Particularly, we can let $\mathbf{x} = \mathbf{x}^{*}$ and get:
+\begin{equation}
+	f_{0}(\mathbf{x}^{*}) = p^{*} \geq \displaystyle\inf_{\mathbf{x} \in \mathcal{D}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big)
+	\label{Lagr_5}
+\end{equation}
+We can denote:
+\begin{equation}
+	\mathcal{L}(\mathbf{x}, \lambda, \nu) = f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \quad (\lambda_{i} \geq 0)
+\end{equation}
+which is the \textit{Lagrangian} of the original optimization problem, and
+\begin{equation}
+	\begin{aligned}
+		g(\lambda, \nu) &= \displaystyle\inf_{\mathbf{x} \in \mathcal{D}} \Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i} f_{i}(\mathbf{x}) + \displaystyle\sum_{j  = 1}^{m} \nu_{j} h_{j}(\mathbf{x}) \Big) \\
+		&= \displaystyle\inf_{\mathbf{x} \in \mathcal{D}}\mathcal{L}(\mathbf{x}, \lambda, \nu)
+	\end{aligned}
+	\label{Lagr_6}
+\end{equation}
+which is called \textit{Lagrange Dual Function}. The Equation \ref{Lagr_5} construct a lower bound of $p^{*}$, which is $g(\lambda, \nu)$. Particularly, each pair of $(\lambda, \nu)$ corresponding to one lower bound. Hence, we may want to find a best lower bound that has the smallest gap with $p^{*}$. It is obvious that this best lower bound is the maximum of $g(\lambda, \nu)$ and hence, we formalize a new optimization problem:
+\begin{equation}
+	\begin{aligned}
+		\displaystyle\max_{\lambda, \nu} \quad & g(\lambda, \nu) \\
+		\textsl{s.t.} \quad & \lambda \succeq 0
+	\end{aligned}
+	\label{dual}
+\end{equation}
+The optimal value of Problem \ref{dual}, denote as $d^{*}$, is the best lower bound of $p^{*}$ and the Problem \ref{dual} is called \textit{Lagrange Dual Problem}.
+
+Hence, we can conclude a simple method that solve the convex optimization problem:
+\begin{enumerate}
+	\item \textbf{Finding the Lagrange Dual Function}: This step can usually be done through taking the first-order derivative of $\mathbf{x}$ and making it equal to zero as the domain we consider is the whole set $\mathcal{D}$.
+	\item \textbf{Solve the Langrange Dual Problem}: This step can give us a best lower bound of $p^{*}$. Particularly, when the problem is convex, this lower bound has zero-gap with $p^{*}$.
+\end{enumerate}
+
+\subsection{Geometry Interpretation}
+For any optimization with optimal value $p^{*} = f_{0}(\mathbf{x}^{*})$, we can let $\mathbf{u} = \begin{bmatrix}
+	f_{1}(\mathbf{x}) \\
+	f_{2}(\mathbf{x}) \\
+	\vdots \\
+	f_{n}(\mathbf{x})
+\end{bmatrix}$, $\mathbf{w} = \begin{bmatrix}
+	h_{1}(\mathbf{x}) \\
+	h_{2}(\mathbf{x}) \\
+	\vdots \\
+	h_{m}(\mathbf{x})
+\end{bmatrix}$ and $t = f_{0}(\mathbf{x})$. Therefore, the point $(\mathbf{u}, \mathbf{w}, t)$ form a set $\mathcal{G}$. Furthermore, the Lagrangian under this situation is:
+\begin{equation*}
+	\mathcal{L} = 
+	\begin{bmatrix}
+		\lambda^{T} & \nu^{T} & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		\mathbf{u} \\
+		\mathbf{w} \\
+		t
+	\end{bmatrix}
+\end{equation*}
+According to Equation \ref{Lagr_6}, we have:
+\begin{equation*}
+	\begin{bmatrix}
+		\lambda^{T} & \nu^{T} & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		\mathbf{u} \\
+		\mathbf{w} \\
+		t
+	\end{bmatrix} \geq g(\lambda, \nu)
+\end{equation*}
+Which define a half-space that contain the set $\mathcal{G}$. By inspecting the hyper-plane $\begin{bmatrix}
+		\lambda^{T} & \nu^{T} & 1
+	\end{bmatrix}
+	\begin{bmatrix}
+		\mathbf{u} \\
+		\mathbf{w} \\
+		t
+	\end{bmatrix} = g(\lambda, \nu)$, it is easy to verify that the point $(0, 0, g(\lambda, \nu))$ lies on this hyper-plane. Hence, the intersection point of the hyper-plane and t-axis has the t-component value equal to $g(\lambda, \nu)$.
+	
+Furthermore, when the set $\mathcal{G}$ is convex, \textsl{i.e.} the original problem is convex optimization problem, there exist a pair $(\lambda^{*}, \nu^{*})$ that satisfied $g(\lambda^{*}, \nu^{*}) = p^{*}$. Indeed, we can construct a set $\mathcal{B} = \{ (0, 0, t) |\, t < p^{*} \}$. It is obvious that $\mathcal{B}$ is convex and has no intersection with $\mathcal{G}$ as all the points within $\mathcal{G}$ has the t-component value greater or equal to $p^{*}$. Consider both $\mathcal{G}$ and $\mathcal{B}$ are convex and do not intersect, there exist a hyper-plane defined by $\begin{bmatrix}
+\lambda \\
+\nu \\
+\sigma
+\end{bmatrix}$ and $\alpha$ that separate these two sets:
+\begin{equation}
+	\begin{cases}
+		\lambda^{T} \mathbf{u} + \nu^{T} \mathbf{w} + \sigma t \geq \alpha \\ 
+		\lambda^{T} 0 + \nu^{T} 0 + \sigma q < \alpha
+	\end{cases}
+\end{equation}
+Where $(\mathbf{u}, \mathbf{w}, t) \in \mathcal{G}$ and $(0, 0, q) \in \alpha$. Particularly, since $q < p^{*}$, we have:
+\begin{equation}
+	\begin{cases}
+		\lambda^{T} \mathbf{u} + \nu^{T} \mathbf{w} + \sigma t \geq \alpha \\ 
+		\sigma p^{*} \leq \alpha
+	\end{cases}
+\end{equation}
+which implies:
+\begin{equation}
+	\lambda^{T} \mathbf{u} + \nu^{T} \mathbf{w} + \sigma t \geq \alpha \geq \sigma p^{*}
+\end{equation}
+We can divide $\sigma$ on both sides and get:
+\begin{equation}
+	\frac{\lambda^{T}}{\sigma} \mathbf{u} + \frac{\nu}{\sigma} \mathbf{w} + t \geq p^{*}
+	\label{slater}
+\end{equation}
+If we let $\lambda^{*} = \frac{\lambda}{\sigma}$ and $\nu^{*} = \frac{\nu}{\sigma}$. The Equation \ref{slater} actually define a half space with vector $\begin{bmatrix}
+\lambda^{*} \\
+\nu^{*} \\
+1
+\end{bmatrix}$ and $g(\lambda^{*}, \nu^{*}) = p^{*}$.
+
+\subsection{Strong and Weak Duality}
+According to above discussion, for any $\lambda \succeq 0$ and $\nu \in \mathcal{R}^{m}$, there is: $g(\lambda, \nu) \leq p^{*}$. This is called weak duality. Particularly, in some cases, there exist $\lambda^{*} \succeq 0$ and $\nu^{*}$ that satisfied $g(\lambda^{*}, \nu^{*}) = \displaystyle\max_{\lambda, \nu}g(\lambda, \nu)$ and $g(\lambda^{*}, \nu^{*}) = p^{*}$, which means, there is no gap between the best lower bound and the optimal value $p^{*}$. This is called strong duality.
+
+\subsection{KKT Condition}
+For a optimization with optimal value $p^{*} = f_{0}(\mathbf{x}^{*})$. If the strong duality hold, which means, there exist $\lambda^{*} \geq 0$ and $\nu^{*}$ that satisfied $g(\lambda^{*}, \nu^{*}) = p^{*}$, then, we have:
+\begin{equation}
+	\begin{aligned}
+		f_{0}(\mathbf{x}^{*}) &= g(\lambda^{*}, \nu^{*}) \\
+		&= \displaystyle\inf_{\mathbf{x} \in \mathcal{D}}\Big( f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i}^{*} f_{i}(\mathbf{x}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} h_{j}(\mathbf{x}) \Big) \\
+		&\leq f_{0}(\mathbf{x}^{*}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i}^{*} f_{i}(\mathbf{x}^{*}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} h_{j}(\mathbf{x}^{*}) \\
+		&\leq f_{0}(\mathbf{x}^{*})
+	\end{aligned}
+	\label{KKT}
+\end{equation}
+Equation \ref{KKT} means $f_{0}(\mathbf{x}^{*}) \leq f_{0}(\mathbf{x}^{*}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i}^{*} f_{i}(\mathbf{x}^{*}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} h_{j}(\mathbf{x}^{*}) \leq f_{0}(\mathbf{x}^{*})$ and hence implies
+\begin{equation}
+	f_{0}(\mathbf{x}^{*}) = g(\lambda^{*}, \nu^{*}) = f_{0}(\mathbf{x}^{*}) + \displaystyle\sum_{i = 1}^{n}\lambda_{i}^{*} f_{i}(\mathbf{x}^{*}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} h_{j}(\mathbf{x}^{*})
+	\label{KKT_2}
+\end{equation}
+As a result, the following condition must be satisfied:
+\begin{equation}
+	\begin{cases}
+		\displaystyle\sum_{i = 1}^{n} \lambda^{*}_{i} f_{i}(\mathbf{x}^{*}) = 0 \\
+		\displaystyle\sum_{j = 1}^{m} \nu^{*}_{j} h_{j}(\mathbf{x}^{*}) = 0
+	\end{cases}
+\end{equation}
+Since for any feasible $\mathbf{x}$, $h_{j}(\mathbf{x}) = 0 \,(j = 1, 2, \cdots m)$, $\displaystyle\sum_{j = 1}^{m} \nu^{*}_{j} h_{j}(\mathbf{x}^{*}) = 0$ always hold. Furthermore, since $\lambda_{i}^{*} f_{i}(\mathbf{x}^{*}) \leq 0$ for each $i$, $\displaystyle\sum_{i = 1}^{n} \lambda^{*}_{i} f_{i}(\mathbf{x}^{*}) = 0$ if and only if for each $i$, there is $\lambda_{i}^{*} f_{i}(\mathbf{x}^{*}) = 0$.
+
+Additionally, if $f_{i}(\mathbf{x}) \, (i = 0, 1, \cdots n)$ and $h_{j}(\mathbf{x}) \, (j = 1, 2, \cdots m)$ are differentiable. The Equation \ref{KKT_2} basically tell us $\mathbf{x}^{*}$ is the minimizer of the Lagrangian $\mathcal{L}(\mathbf{x}, \lambda^{*}, \nu^{*})$ and hence $\nabla_{\mathbf{x}} \mathcal{L}(\mathbf{x}^{*}, \lambda^{*}, \nu^{*}) = 0$:
+\begin{equation}
+	\begin{aligned}
+	\nabla_{\mathbf{x}} \mathcal{L}(\mathbf{x}^{*}, \lambda^{*}, \nu^{*}) &= \nabla f_{0}(\mathbf{x}^{*}) + \displaystyle\sum_{i = 1}^{n} \lambda_{i}^{*} \nabla f_{i}(\mathbf{x}^{*}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} \nabla h_{j}(\mathbf{x}^{*}) \\
+	& = 0
+	\end{aligned}
+\end{equation}
+
+In conclusion, if strong duality hold for a optimization problem with optimal value $p^{*} = f_{0}(\mathbf{x}^{*})$, there must be:
+\begin{enumerate}
+	\item $\mathbf{x}^{*}$ must be feasible, hence, it must satisfied:
+		\begin{equation*}
+			\begin{cases}
+				f_{i}(\mathbf{x}^{*}) \leq 0 \quad i = 1, 2, \cdots n \\
+				h_{j}(\mathbf{x}^{*}) = 0 \quad j = 1, 2, \cdots m
+			\end{cases}
+		\end{equation*}
+	\item $\lambda_{i}^{*} \geq 0$ for $i = 1, 2, \cdots n$
+	\item $\lambda_{i}^{*} f_{i}(\mathbf{x}^{*})$ for $i = 1, 2, \cdots n$.
+	\item $\nabla f_{0}(\mathbf{x}^{*}) + \displaystyle\sum_{i = 1}^{n} \lambda_{i}^{*} \nabla f_{i}(\mathbf{x}^{*}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} \nabla h_{j}(\mathbf{x}^{*}) = 0$.
+\end{enumerate}
+These conditions are called KKT conditions which give us the criteria to determine whether the strong duality hold. Particularly, if we can solve the equations listed in KKT conditions, we not only verify the strong duality hold, but find the optimal point $\mathbf{x}^{*}$ and $\lambda^{*}, \nu^{*}$ that make $g(\lambda^{*}, \nu^{*}) = p^{*}$.
 \end{document}
