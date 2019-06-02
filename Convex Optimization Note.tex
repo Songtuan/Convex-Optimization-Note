@@ -892,5 +892,39 @@ Where $p^{*}$ is the optimal value of the original problem. As a result, we have
 \end{equation*}
 Which measure the margin between the optimal value of approximation problem $f(\mathbf{x}^{*})$ and the optimal value of original problem $p^{*}$.
 \section{Application}
-
+A lot of real-world problems can be convert into convex optimization problems. In this part, we will introduce some examples of this.
+\subsection{Approximation Problem}
+In real world, we usually need to replace the value of some variables with some observed data. Being more specific, the value of $y_{i}$ can be replaced by a set of observed data denoted as $\mathbf{a}_{i} = \begin{bmatrix}
+a_{i, 1} & a_{i, 2} & \cdots & a_{i, m}
+\end{bmatrix}^{T}$. We can replace the value of $y_{i}$ with $\mathbf{a}_{i}$ by constructing an approximation function $f(\mathbf{a}_{i})$ with parameter $\mathbf{x}$, \textsl{e.g.} $y_{i} \approx f(\mathbf{a}_{i}) = \mathbf{a}_{i}^{T} \mathbf{x}$. Now, suppose we have several such $y_{i}$: $\mathbf{y} = \begin{bmatrix}
+y_{1} & y_{2} & \cdots & y_{n}
+\end{bmatrix}^{T}$ and observed data set:
+\begin{equation*}
+	\mathcal{A} = \begin{bmatrix}
+	a_{1, 1} & a_{1, 2} & \cdots & a_{1, m} \\
+	a_{2, 1} & a_{2, 2} & \cdots & a_{2, m} \\
+	\vdots & \vdots & \ddots & \vdots \\
+	a_{n, 1} & a_{n, 2} & \cdots & a_{n, m}
+	\end{bmatrix}
+\end{equation*}
+we can approximate $\mathbf{y}$ as:
+\begin{equation*}
+	\mathbf{y} \approx \mathcal{A} \mathbf{x}
+\end{equation*}
+It is not hard to figure out that the error of the approximation can be measured as:
+\begin{equation*}
+	\epsilon = \mathbf{y} - \mathcal{A} \mathbf{x}
+\end{equation*}
+In which, each component of $\epsilon$ is $\epsilon_{i} = y_{i} - \mathbf{a}_{i}^{T} \mathbf{x}$. In order to construct a good approximation of $\mathbf{y}$, we want the magnitude of this error to be small, which means, we can estimate the parameters of this approximation by solving the following convex optimization problem:
+\begin{equation*}
+	\displaystyle\min_{\mathbf{x}} \quad \| \mathbf{y} - \mathcal{A} \mathbf{x} \|
+\end{equation*}
+In here, we measure the magnitude of error through its norm $\| \epsilon \|$. Indeed, we can denote the measurement in a more general form: $\Phi(\epsilon) = \displaystyle\sum_{i = 1}^{n} \phi(\epsilon_{i})$ and construct the optimization problem as:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}, \epsilon} \quad & \displaystyle\sum_{i = 1}^{n} \phi(\epsilon_{i}) \\
+		\textsl{s.t.} \quad & \epsilon = \mathbf{y} - \mathcal{A} \mathbf{x}
+	\end{aligned} 
+\end{equation*}
+The function $\phi(\epsilon_{i})$ here is called \textit{penalty function} and we can treat it as the measurement of how the single error component $\epsilon_{i}$ contribute to the total error measurement $\Phi(\epsilon)$, \textsl{i.e.} the greater the value $\phi(\epsilon_{i})$, the greater it contribute to the total error measurement $\Phi(\epsilon)$. As a result, the minimization will put more effort to minimize $\phi(\epsilon_{i})$ and hence, reduce $\epsilon_{i}$. In order to have a deeper understanding about this concept, we can think of two penalty function: $\phi(\epsilon_{i}) = \epsilon_{i}^{2}$ and $\phi_{\epsilon_{i}} = |\epsilon_{i}|$. If $\epsilon_{i}$ is large, the value of $\epsilon_{i}^{2}$ is also large and we have $\epsilon_{i}^{2} >> |\epsilon_{i}|$. Therefore, compare with $\displaystyle\sum_{i = 1}^{n} |\epsilon_{i}|$, the minimization of $\displaystyle\sum_{i = 1}^{n} \epsilon_{i}^{2}$ will put more effort to eliminate large $\epsilon_{i}$. On the other hand, for small $\epsilon_{i}$, we have $|\epsilon_{i}| << \epsilon_{i}^{2}$. As a result, the minimization of $\displaystyle\sum_{i = 1}^{n} |\epsilon_{i}|$ will put weight on reducing small $\epsilon_{i}$ than the minimization $\displaystyle\sum_{i = 1}^{n} \epsilon_{i}^{2}$.
 \end{document}

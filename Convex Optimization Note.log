@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.8)  2 JUN 2019 21:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6930 64-bit) (preloaded format=pdflatex 2019.3.8)  3 JUN 2019 01:24
 entering extended mode
 **"./Convex Optimization Note.tex"
 ("Convex Optimization Note.tex"
@@ -642,16 +642,16 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 328.
 
-[6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16]
+[6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17]
 ("Convex Optimization Note.aux") ) 
 Here is how much of TeX's memory you used:
  13433 strings out of 492946
  265284 string characters out of 3126267
- 316637 words of memory out of 3000000
+ 316636 words of memory out of 3000000
  17054 multiletter control sequences out of 15000+200000
  14223 words of font info for 53 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,11n,48p,929b,710s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,11n,48p,1319b,710s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/lst19/AppData/Local/Programs/MiKTeX
  2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Users/lst19/AppData/Local/Pr
 ograms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Users/lst19/App
@@ -675,9 +675,9 @@ rs/lst19/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7
 .pfb><C:/Users/lst19/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfo
 nts/cm/cmti10.pfb><C:/Users/lst19/AppData/Local/Programs/MiKTeX 2.9/fonts/type1
 /public/amsfonts/symbols/msbm10.pfb>
-Output written on "Convex Optimization Note.pdf" (16 pages, 278851 bytes).
+Output written on "Convex Optimization Note.pdf" (17 pages, 283598 bytes).
 PDF statistics:
- 133 PDF objects out of 1000 (max. 8388607)
+ 136 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

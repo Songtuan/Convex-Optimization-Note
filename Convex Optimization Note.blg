@@ -1,5 +1,5 @@
 [0] Config.pm:304> INFO - This is Biber 2.12
-[0] Config.pm:307> INFO - Logfile is 'Convex Optimization Note.blg'
-[33] biber-MSWIN64:315> INFO - === 
-[595] Utils.pm:209> ERROR - Cannot find control file 'Convex Optimization Note.bcf'! - Did latex run successfully on your .tex file before you ran biber?
-[596] Biber.pm:114> INFO - ERRORS: 1
+[1] Config.pm:307> INFO - Logfile is 'Convex Optimization Note.blg'
+[199] biber-MSWIN64:315> INFO - === 
+[2132] Utils.pm:209> ERROR - Cannot find control file 'Convex Optimization Note.bcf'! - Did latex run successfully on your .tex file before you ran biber?
+[2133] Biber.pm:114> INFO - ERRORS: 1
