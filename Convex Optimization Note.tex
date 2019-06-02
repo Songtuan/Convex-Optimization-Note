@@ -5,6 +5,8 @@
 \usepackage{amssymb}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 \usepackage{parskip}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{float}
 \usepackage{tikz}
 \author{Garrick Lin}
 \title{Convex Optimization Note}
@@ -603,7 +605,7 @@ If we let $\lambda^{*} = \frac{\lambda}{\sigma}$ and $\nu^{*} = \frac{\nu}{\sigm
 According to above discussion, for any $\lambda \succeq 0$ and $\nu \in \mathcal{R}^{m}$, there is: $g(\lambda, \nu) \leq p^{*}$. This is called weak duality. Particularly, in some cases, there exist $\lambda^{*} \succeq 0$ and $\nu^{*}$ that satisfied $g(\lambda^{*}, \nu^{*}) = \displaystyle\max_{\lambda, \nu}g(\lambda, \nu)$ and $g(\lambda^{*}, \nu^{*}) = p^{*}$, which means, there is no gap between the best lower bound and the optimal value $p^{*}$. This is called strong duality.
 
 \subsection{KKT Condition}
-For a optimization with optimal value $p^{*} = f_{0}(\mathbf{x}^{*})$. If the strong duality hold, which means, there exist $\lambda^{*} \geq 0$ and $\nu^{*}$ that satisfied $g(\lambda^{*}, \nu^{*}) = p^{*}$, then, we have:
+For a optimization problem with optimal value $p^{*} = f_{0}(\mathbf{x}^{*})$. If the strong duality hold, which means, there exist $\lambda^{*} \geq 0$ and $\nu^{*}$ that satisfied $g(\lambda^{*}, \nu^{*}) = p^{*}$, then, we have:
 \begin{equation}
 	\begin{aligned}
 		f_{0}(\mathbf{x}^{*}) &= g(\lambda^{*}, \nu^{*}) \\
@@ -649,4 +651,246 @@ In conclusion, if strong duality hold for a optimization problem with optimal va
 	\item $\nabla f_{0}(\mathbf{x}^{*}) + \displaystyle\sum_{i = 1}^{n} \lambda_{i}^{*} \nabla f_{i}(\mathbf{x}^{*}) + \displaystyle\sum_{j = 1}^{m} \nu_{j}^{*} \nabla h_{j}(\mathbf{x}^{*}) = 0$.
 \end{enumerate}
 These conditions are called KKT conditions which give us the criteria to determine whether the strong duality hold. Particularly, if we can solve the equations listed in KKT conditions, we not only verify the strong duality hold, but find the optimal point $\mathbf{x}^{*}$ and $\lambda^{*}, \nu^{*}$ that make $g(\lambda^{*}, \nu^{*}) = p^{*}$.
+
+\section{Optimization Algorithm}
+In general, we are looking for a iterative algorithm so that:
+\begin{equation*}
+	f(\mathbf{x_{i + 1}}) \leq f(\mathbf{x_{i}})
+\end{equation*}
+In which, $\mathbf{x_{i + 1}}$ and $\mathbf{x_{i}}$ satisfied:
+\begin{equation}
+	\mathbf{x_{i + 1}} = \mathbf{x_{i}} + t \Delta \mathbf{x}
+	\label{iter}
+\end{equation}
+with $t > 0$. The term $\Delta \mathbf{x}$ is a \textit{direction vector} which indicate the incremental direction of $\mathbf{x_{i}}$. The term $t$ indicate the incremental length along with the direction $\Delta \mathbf{x}$. A simple 2 dimensional illustration can be show as:
+\begin{figure}[H]
+	\center
+	\begin{tikzpicture}
+		\filldraw (0, 0) circle (1pt) node[below]{$(0, 0)$};
+		\filldraw (1, 2) circle (1pt) node[left]{$\mathbf{x_{i}}$};
+		\filldraw (2.5, 2.5) circle (1pt) node[right]{$\mathbf{x_{i}} + t \Delta \mathbf{x}$};
+		\draw[->] (0, 0) -- (1, 2);
+		\draw[->] (1, 2) -- node[pos=0.5, above]{$t \Delta \mathbf{x}$} (2.5, 2.5);
+		\draw[->] (0, 0) -- (2.5, 2.5);
+	\end{tikzpicture}
+\end{figure}  
+Now consider $f(\mathbf{x})$ is convex. According to the first-order condition, we have:
+\begin{equation*}
+	f(\mathbf{x_{i} + t \Delta \mathbf{x}}) \geq f(\mathbf{x_{i}}) + \nabla f(\mathbf{x_{i}})^{T} (t \Delta \mathbf{x_{i}})
+\end{equation*}
+We notice from this inequality that if $ \nabla f(\mathbf{x_{i}})^{T} (t \Delta \mathbf{x_{i}}) \geq 0$, $f(\mathbf{x_{i} + t \Delta \mathbf{x}}) \geq f(\mathbf{x_{i}})$ always holds. Hence, we must choose $t$ and $\Delta \mathbf{x}$ that satisfied:
+\begin{equation*}
+	\nabla f(\mathbf{x_{i}})^{T} t \Delta \mathbf{x} \leq 0
+\end{equation*}
+By considering $t > 0$, we notice the above inequality is equivalent to:
+\begin{equation}
+	\nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x} \leq 0
+	\label{descent}
+\end{equation}
+Which means, we must choose the incremental direction that is opposite of the gradient direction.
+
+\subsection{Optimization under Approximation Perspective}
+For a convex function $f(\mathbf{x})$, we can use Taylor Approximation to approximate any point $\mathbf{y}$ base on a fixed point $\mathbf{x}$ as:
+\begin{equation}
+		f(\mathbf{y}) = f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} (\mathbf{y} - \mathbf{x}) + \frac{1}{2} (\mathbf{y} - \mathbf{x})^{T} \nabla^{2} f(\mathbf{z}) (\mathbf{y} - \mathbf{x})
+		\label{appro}
+\end{equation}
+Where $\mathbf{z}$ could be any point within $\mathbf{dom} f$. If we further consider $f$ as a \textit{strong convex} function, which means, there exist some $\alpha$, so that the function $g(\mathbf{x})$:
+\begin{quote}
+	\center
+	$g(\mathbf{x}) = f(\mathbf{x}) - \alpha \| \mathbf{x} \|^{2}_{2}$ is convex
+\end{quote}
+Since $g(\mathbf{x})$ is convex, we have:
+\begin{equation*}
+	\nabla^{2} g(\mathbf{x}) = \nabla^{2} f(\mathbf{x}) - \alpha \mathbf{I} \succeq 0
+\end{equation*}
+Which implicit that for any $\mathbf{z} \in \mathbf{dom} f$, there is:
+\begin{equation*}
+	\nabla^{2} f(\mathbf{z}) \succeq \alpha \mathbf{I}
+\end{equation*}
+We can apply this inequality to Equation \ref{appro} and hence:
+\begin{equation}
+	\begin{aligned}
+		f(\mathbf{y}) &= f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} (\mathbf{y} - \mathbf{x}) + \frac{1}{2} (\mathbf{y} - \mathbf{x})^{T} \nabla^{2} f(\mathbf{z}) (\mathbf{y} - \mathbf{x}) \\
+		&\geq f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} (\mathbf{y} - \mathbf{x}) + \frac{1}{2} (\mathbf{y} - \mathbf{x})^{T} \alpha \mathbf{I} (\mathbf{y} - \mathbf{x}) \\
+		&= f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} (\mathbf{y} - \mathbf{x}) + \frac{\alpha}{2} \| \mathbf{y} - \mathbf{x} \|^{2}_{2}
+	\end{aligned}
+	\label{bound}
+\end{equation}
+Therefore, we successfully construct a lower bound of any point $\mathbf{y}$ in terms of a fix point $\mathbf{x}$. Now, we can substitute $\mathbf{y}$ by $\mathbf{x_{i + 1}}$ and fix $\mathbf{x}$ as $\mathbf{x_{i}}$. In order to make $f(\mathbf{x_{i + 1}}) \leq f(\mathbf{x_{i}})$, we need to choose a point $\mathbf{x_{i + 1}}$ that can minimize $f(\mathbf{x_{i + 1}})$. Indeed, we can choose the lower bound in Equation \ref{bound} as the approximation of $f(\mathbf{x_{i + 1}}) \approx f(\mathbf{x_{i}}) + \nabla f(\mathbf{x_{i}})^{T} (\mathbf{x_{i + 1}} - \mathbf{x_{i}}) + \frac{\alpha}{2} \| \mathbf{x_{i + 1}} - \mathbf{x_{i}} \|^{2}_{2}$ (Since we can think $\mathbf{x_{i}}$ as constant, the term $f(\mathbf{x_{i}})$ is also a constant) and then, minimize this approximation instead of minimizing the original $f(\mathbf{x_{i + 1}})$ and construct a simple minimization problem:
+\begin{equation*}
+	\displaystyle\min_{\mathbf{x_{i + 1}}} \quad f(\mathbf{x_{i}}) + \nabla f(\mathbf{x_{i}})^{T} (\mathbf{x_{i + 1}} - \mathbf{x_{i}}) + \frac{\alpha}{2} \| \mathbf{x_{i + 1}} - \mathbf{x_{i}} \|^{2}_{2}
+\end{equation*}
+The solution of this optimization is:
+\begin{equation*}
+	\mathbf{x_{i + 1}} = \mathbf{x_{i}} - \frac{1}{\alpha} \nabla f(\mathbf{x_{i}})
+\end{equation*}
+Which is equivalent to Equation \ref{iter} by setting $t = \frac{1}{\alpha}$ and $\Delta \mathbf{x} = - \nabla f(\mathbf{x_{i}})$. Indeed, we can verify that by letting $\Delta \mathbf{x} = - \nabla f(\mathbf{x_{i}})$, Equation \ref{descent} always holds as: 
+\begin{equation*}
+	\begin{aligned}
+		\nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x} &= - \nabla f(\mathbf{x_{i}})^{T} \nabla f(\mathbf{x_{i}}) \\
+		&= - \| \nabla f(\mathbf{x_{i}}) \|^{2}_{2} \\
+		&\leq 0
+	\end{aligned}
+\end{equation*}
+In fact, the optimization method which choosing $- \nabla f(\mathbf{x_{i}})$ as incremental direction is called \textit{Gradient Descend}.
+
+\subsection{Gradient Descend and Line Search}
+As we discussed before, by letting $\Delta \mathbf{x} = -\nabla f(\mathbf{x_{i}})$ in Equation \ref{iter}, we get the Gradient Descend Method. After we have chosen the incremental direction, one more thing we need to concern is the value of $t$, or be more specific, the incremental length. We first notice that within the first-order condition:
+\begin{equation*}
+	f(\mathbf{x_{i}} + t \Delta \mathbf{x}) \geq f(\mathbf{x_{i}}) + t \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x_{i}}
+\end{equation*} 
+If we force $t$ to be large, the term $t \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x_{i}}$ could be very negative. As a result, the first-order condition can still hold even though $f(\mathbf{x_{i}}) \geq f(\mathbf{x_{i}} + t \Delta \mathbf{x})$, which against our intention: $f(\mathbf{x_{i}}) \leq f(\mathbf{x_{i}} + t \Delta \mathbf{x})$. On the other hand, if we choose $t$ to be too small, the term $\mathbf{x_{i}} + t \Delta \mathbf{x}$ is almost identical to original $\mathbf{x_{i}}$, which means, the algorithm converge very slowly. The process that find the value of $t$ is called \textit{line search}. One general idea for addressing line search is that we can first assign $t$ with an initial value, \textsl{e.g.} $t_{init} = 1$, then reduce the value of $t$ iterative until it satisfied some constrain. This idea left us with 2 question:
+	\begin{enumerate}
+		\item what is the stop constrain
+		\item what is the decrease size of $t$ in each iteration
+	\end{enumerate}
+For the first question, we first notice that we can approximate $f(\mathbf{x_{i}} + t \Delta \mathbf{x})$ by using first order Taylor Approximation:
+\begin{equation*}
+	f(\mathbf{x_{i}} + t \Delta \mathbf{x}) \approx f(\mathbf{x_{i}}) + t \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x}
+\end{equation*}
+The above equation hold when $t$ is very small. Since $\Delta \mathbf{x} = - \nabla f(\mathbf{x_{i}})$, we can multiple the term $t \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x}$ with an $\alpha < 1$ and get:
+\begin{equation*}
+	f(\mathbf{x_{i}}) + t \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x} \leq f(\mathbf{x_{i}}) + t \alpha \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x}
+\end{equation*}
+Combine these two equations, we can conclude that for any $0 < \alpha < 1$, there exist a small enough $t$ that satisfied:
+\begin{equation}
+	f(\mathbf{x_{i}} + t \Delta \mathbf{x}) \leq f(\mathbf{x_{i}}) + t \alpha \nabla f(\mathbf{x_{i}})^{T} \Delta \mathbf{x}
+	\label{backtrack}
+\end{equation}
+Indeed, Equation \ref{backtrack} give us a good stopping constrain for line search, we can select an $\alpha$ and reduce the value of $t$ iterative until this equation is satisfied. For the second question, we can reduce $t$ by multiplying it with a $\beta$ which satisfied $0 < \beta < 1$.
+
+This line search algorithm is called \textit{backtrack line search} and can be summarized as:
+\begin{enumerate}
+	\item Choose the value of $\alpha$ and $\beta$
+	\item Choose the initial value of $t$
+	\item Multiple $t$ with $\beta$ and assign $t$ with this new value($t := \beta t$) until Equation \ref{backtrack} is satisfied.
+	\item Return the value of $t$.
+\end{enumerate}
+
+\subsection{Newton's Method}
+According to the above discussion, we have noticed that we can minimize $f(\mathbf{x} + \Delta \mathbf{x})$ by minimize it's approximation. Particularly, by minimizing the first-order Taylor Approximation of $f(\mathbf{x} + \Delta \mathbf{x})$, we obtain Gradient Descent algorithm. Indeed, instead of using first-order approximation, we can use second-order Taylor Approximation of $f(\mathbf{x} + \Delta \mathbf{x})$. Thus, we have:
+\begin{equation*}
+	f(\mathbf{x} + \Delta \mathbf{x}) \approx f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} \Delta \mathbf{x} + \frac{1}{2} \Delta \mathbf{x}^{T} \nabla^{2} f(\mathbf{x}) \Delta \mathbf{x}
+\end{equation*}
+By minimizing this approximation over $\Delta \mathbf{x}$(in here, $\mathbf{x}$ is the initial point we choose hence, is a constant), we have:
+\begin{equation*}
+	\Delta \mathbf{x} = -\nabla^{2} f(\mathbf{x})^{-1} \nabla f(\mathbf{x})
+\end{equation*}
+
+\subsection{Steepest Descent}
+The Gradient Descent Algorithm we introduced before is a special case of a more general algorithm called \textit{Steepest Descent}. As we discussed before, for a initial point $\mathbf{x}$, we want to find an incremental direction $\Delta \mathbf{x}$ and a incremental size $t$ so that: $f(\mathbf{x} + t \Delta \mathbf{x}) \leq f(\mathbf{x})$. Be more specific, we want to minimize $f(\mathbf{x} + t \Delta \mathbf{x})$. In order to do so, we can minimize the approximation of $f(\mathbf{x} + t \Delta \mathbf{x})$ instead of the original function. Moreover, according to the first-order Taylor Approximation, we have:
+\begin{equation*}
+	f(\mathbf{x} + t \Delta \mathbf{x}) \approx f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} t \Delta \mathbf{x}
+\end{equation*}
+Since $\mathbf{x}$ is an initial point and $t$ is the incremental size that can be found through line search, we can treat these $\mathbf{x}$ and $t$ as constant. Therefore, in order to minimize the approximation function, we only need to minimize the term $\nabla f(\mathbf{x}) \Delta \mathbf{x}$ (as we have treated $f(\mathbf{x})$ and $t$ as constants). As a result, we can find $\Delta \mathbf{x}$ by solving following equation:
+\begin{equation*}
+	\Delta \mathbf{x} = \argmin_{\Delta \mathbf{x}} \nabla f(\mathbf{x})^{T} \Delta \mathbf{x}
+\end{equation*}
+We then notice that $\nabla f(\mathbf{x})^{T} \Delta \mathbf{x}$ is a affine(linear) function, which means, it can reach $-\infty$ if $\Delta$ is unconstrained. Additionally, the first-order Taylor Approximation only hold when $t \Delta \mathbf{x}$ is small enough, therefore, if $\Delta \mathbf{x}$ is unconstrained and being too large, we cannot use $f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} t \Delta \mathbf{x}$ to approximate the original function and hence, the minimization of $f(\mathbf{x}) + \nabla f(\mathbf{x})^{T} t \Delta \mathbf{x}$ is useless under this situation. As a result, it is important to add some constrain over $\Delta \mathbf{x}$. The common constrain is restricting the norm of $\Delta \mathbf{x}$. Therefore, we can find $\Delta \mathbf{x}$ by solving the following optimization problem:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\Delta \mathbf{x}} \quad & \nabla f(\mathbf{x})^{T} \Delta \mathbf{x} \\
+		\textsl{s.t.} \quad & \| \Delta \mathbf{x} \| \leq 1
+	\end{aligned}
+\end{equation*}
+The $\| \Delta \mathbf{x} \|$ could mean any order norm, \textsl{e.g.} first order norm $\| \Delta \mathbf{x} \|_{1}$, second order norm $\| \Delta \mathbf{x} \|_2$.
+\section{Optimization Algorithm with Inequality Constrain}
+The inequality constrains within optimization problem are usually the most difficulty part to deal with. Therefore, finding a method to eliminate these constrain within optimization problems will help solve these problems. Indeed, for an optimization problem:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) \\
+		\textsl{s.t.} \quad & f_{i}(\mathbf{x}) \leq 0 \quad i = 1, 2, \cdots, n \\
+		& h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots, m
+	\end{aligned}
+\end{equation*}
+We can think the inequality constrain serve the following purpose: The inequality constrains define a set of $\mathbf{x}$, if $\mathbf{x}$ take value out of this set, the objective function($f_{0}(\mathbf{x})$) will take value $\infty$. Therefore, we can embed the inequality constrains into objective function by replacing them with the \textit{indicator function} defined as:
+\begin{equation*}
+	\mathcal{I}(u) = 
+	\begin{cases}
+		0 \quad u \leq 0\\
+		\infty \quad u > 0
+	\end{cases}
+\end{equation*} 
+Being more specific, we can reconstruct the optimization problem with indicator function as:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n} \mathcal{I}(f_{i}(\mathbf{x})) \\
+		\textsl{s.t.} \quad & h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots, m
+	\end{aligned}
+\end{equation*}
+Following the definition of indicator function, it can be seen that the new objective function $f_{0}(\mathbf{x}) + \displaystyle\sum_{i = 1}^{n} \mathcal{I}(f_{i}(\mathbf{x}))$ will goes to infinity if $f_{i}(\mathbf{x}) \leq 0$ is not satisfied and will equal to the original objective function $f_{0}(\mathbf{x})$ if the inequality constrains are hold.
+
+Even though we successfully remove the inequality constrains, it is still difficulty to deal with the indicator function as it is non differentiable. A better idea is using some approximation function to replace indicator function. Particularly, a good approximation function $\phi(u)$ need to have the similar property as indicator function: $\phi(u)$ will approximate 0 if $u \leq 0$ and approximate $\infty$ if $u > 0$. One such function is \textit{log-barrier} function defined as:
+\begin{equation*}
+	\phi(u) = -\frac{1}{t}\log{(-u)}
+\end{equation*}
+Where $t$ is a constant chosen by us. By applying this approximation to the original problem, we have:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & f_{0}(\mathbf{x}) + \frac{1}{t} \displaystyle\sum_{i = 1}^{n} -\log{(- f_{i}(\mathbf{x}))} \\
+		\textsl{s.t.} \quad & h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots, m
+	\end{aligned}
+\end{equation*}
+For our convenience, we can defined:
+\begin{equation*}
+	\Phi(\mathbf{x}) = \displaystyle\sum_{i = 1}^{n} -\log{(- f_{i}(\mathbf{x}))}
+\end{equation*}
+Recalling the equivalent problem construction methodology, we can construct a equivalent problem by multiplying the original objective function with any constant since this action will not effect the optimal point. Therefore, we can construct an equivalent problem by multiplying the objective function in above optimization problem with constant $t$ and get:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & t f_{0}(\mathbf{x}) + \Phi(\mathbf{x}) \\
+		\textsl{s.t.} \quad & h_{j}(\mathbf{x}) = 0 \quad j = 1, 2, \cdots, m
+	\end{aligned}
+\end{equation*} 
+As a result, we can solve the original optimization by solving this approximation problem. Now, let us have a closer look of log-barrier method by considering the stand form convex optimization problem. Following our discussion above, we can construct the approximation problem as:
+\begin{equation*}
+	\begin{aligned}
+		\displaystyle\min_{\mathbf{x}} \quad & t f_{0}(\mathbf{x}) + \Phi(\mathbf{x}) \\
+		\textsl{s.t.} \quad & \mathcal{A}\mathbf{x} = \mathbf{b}
+	\end{aligned}
+\end{equation*} 
+The first step to solve this problem is constructing its Lagrangian:
+\begin{equation*}
+	\mathcal{L}(\mathbf{x}, \nu) = t f_{0}(\mathbf{x}) + \Phi(\mathbf{x}) + \nu^{T}(\mathcal{A} \mathbf{x} - \mathbf{b})
+\end{equation*}
+Now, suppose this problem has optimal point $\mathbf{x^{*}}$. This optimal point must be the minimizer of Lagrangian, which means, there must exist a $\nu^{*}$ so that:
+\begin{equation*}
+	\nabla \mathcal{L}(\mathbf{x}^{*}, \nu^{*}) = 0
+\end{equation*}
+By noticing that
+\begin{equation*}
+	\nabla \Phi(\mathbf{x}) = \displaystyle\sum_{i = 1}^{n} \frac{1}{-f_{i}(\mathbf{x})} \nabla f_{i}(\mathbf{x})
+\end{equation*}
+We have:
+\begin{equation}
+	\begin{aligned}
+		\nabla \mathcal{L}(\mathbf{x}^{*}, \nu^{*}) & = t \nabla f_{0}(\mathbf{x^{*}}) + \displaystyle\sum_{i = 1}^{n} \frac{1}{-f_{i}(\mathbf{x^{*}})} \nabla f_{i}(\mathbf{x^{*}}) + \mathcal{A}^{T} \nu \\
+		& = 0
+	\end{aligned}
+	\label{equ}
+\end{equation}
+This equation indicates that the approximation problem has optimal solution if and if this equation hold. Indeed, we can multiple Equation \ref{equ} with $\frac{1}{t}$ and get:
+\begin{equation*}
+	\nabla f_{0}(\mathbf{x^{*}}) + \displaystyle\sum_{i = 1}^{n} \frac{1}{-t f_{i}(\mathbf{x^{*}})} \nabla f_{i}(\mathbf{x^{*}}) + \mathcal{A}^{T} \frac{\nu}{t} = 0
+\end{equation*}
+It is not hard to find out that the term $\nabla f_{0}(\mathbf{x^{*}}) + \displaystyle\sum_{i = 1}^{n} \frac{1}{-t f_{i}(\mathbf{x^{*}})} \nabla f_{i}(\mathbf{x^{*}}) + \mathcal{A}^{T} \frac{\nu}{t}$ is the first-order derivative of the Lagrangian $\hat{\mathcal{L}}(\mathbf{x}, \hat{\lambda}, \hat{\nu})$ of the original optimization problem with $\hat{\lambda}_{i} = \frac{1}{-tf_{i}(\mathbf{x})}$ and $\hat{\nu} = \frac{\nu}{t}$. As a result, the Equation \ref{equ} also indicates $\mathbf{x^{*}}$ minimize $\hat{\mathcal{L}}(\mathbf{x},  \hat{\lambda}, \hat{\nu})$ and hence, the Lagrange Dual Function of original optimization function can be obtained as:
+\begin{equation*}
+	g(\hat{\lambda}, \hat{\nu}) = f_{0}(\mathbf{x^{*}}) + \displaystyle\sum_{i = 1}^{n} \hat{\lambda}_{i} f_{i}(\mathbf{x^{*}}) + \hat{\nu}^{T} (\mathcal{A} \mathbf{x}^{*} - \mathbf{b})
+\end{equation*}
+By substituting $\hat{\lambda}_{i} =  \frac{1}{-tf_{i}(\mathbf{x}^{*})}$ to this equation and notice $\mathcal{A} \mathbf{x}^{*} - \mathbf{b} = 0$, we have:
+\begin{equation*}
+	g(\hat{\lambda}, \hat{\nu}) = f_{0}(\mathbf{x^{*}}) - \frac{n}{t}
+\end{equation*}
+Where $n$ is the number of inequality constrains. One important thing to note here is that the pair $(\hat{\lambda}, \hat{\nu})$ do not maximize the Lagrange Dual Function, therefore, we have:
+\begin{equation*}
+	p^{*} \geq g(\hat{\lambda}, \hat{\nu}) = f_{0}(\mathbf{x^{*}}) - \frac{n}{t}
+\end{equation*}
+Where $p^{*}$ is the optimal value of the original problem. As a result, we have:
+\begin{equation*}
+	f_{0}(\mathbf{x^{*}}) - p^{*} \leq \frac{n}{t}
+\end{equation*}
+Which measure the margin between the optimal value of approximation problem $f(\mathbf{x}^{*})$ and the optimal value of original problem $p^{*}$.
+\section{Application}
+
 \end{document}
